@@ -71,14 +71,18 @@ class DocPuller:
         if not os.path.exists(self.folder_name):
             os.mkdir(self.folder_name)
 
+    def copy_file(self, path, path2):
+        try:
+            shutil.copy2(path, path2)
+        except Exception as e:
+            print(e)
+
     def copy_file_to_usb(self):
         while self.running or not self.copy_files.empty():
             if not self.copy_files.empty():
                 path = self.copy_files.get()
-                try:
-                    shutil.copy2(path, self.usb_path + "\\" + self.folder_name)
-                except Exception as e:
-                    print(e)
+                thread = threading.Thread(target=self.copy_file, args=(path, self.usb_path + "\\" + self.folder_name))
+                thread.start()
         print('niggers')
 
     def scan_dir(self, dirs):
@@ -92,10 +96,15 @@ class DocPuller:
                 self.copy_files.put(f'{path}\\{file}')
 
     def scan_dirs(self):
+        threads = []
         for dirs in self.directorys:
-            self.scan_dir(dirs)
+            thread = threading.Thread(target=self.scan_dir, args=(dirs,))
+            thread.start()
+            threads.append(thread)
+
+        for thread in threads:
+            thread.join()
         self.running = False
-        print("ASdfasdfadsfadfasdf")
 
     def init_docPuller(self):
         self.set_folder_name()

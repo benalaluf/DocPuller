@@ -9,7 +9,6 @@ import os
 import shutil
 import time
 from pathlib import Path
-from queue import Queue
 
 start_time = 0
 
@@ -32,7 +31,6 @@ class DocPuller:
         self.usb_path = self.get_usb_drive_letter()
         print('usbfound',self.usb_path)
         self.folder_name = ''
-        self.copy_files = Queue()
 
     def get_usb_drive_letter(self):
         command = 'wmic logicaldisk where drivetype=2 get caption, volumename'
