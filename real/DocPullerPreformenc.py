@@ -1,14 +1,11 @@
-__author__ = 'iBen'
+__author__ = 'Ben'
 
-import multiprocessing
 import subprocess
-from concurrent.futures import ProcessPoolExecutor
 import threading
 from datetime import datetime
 import os
 import shutil
 import time
-from pathlib import Path
 from queue import Queue
 
 start_time = 0
@@ -30,7 +27,7 @@ class DocPuller:
         self.login = os.getlogin()
         self.path = rf'C:\Users\{self.login}'
         self.usb_path = self.get_usb_drive_letter()
-        print('usbfound',self.usb_path)
+        print('usbfound', self.usb_path)
         self.folder_name = ''
         self.copy_files = Queue()
 
@@ -41,8 +38,9 @@ class DocPuller:
         for line in result:
             if self.USB_NAME in line:
                 return line[0:2] + '\\'
-        print('cant find usb')
-        exit()
+        else:
+            print('cant find usb')
+            exit(1)
 
     def is_date(self, time_stamp):
         return time_stamp.split()[4] in self.years and time_stamp.split()[1] in self.months
@@ -72,41 +70,47 @@ class DocPuller:
         if not os.path.exists(self.folder_name):
             os.mkdir(self.folder_name)
 
-    def copy_file_to_usb(self, path):
-        try:
-            shutil.copy2(path, self.usb_path + "\\" + self.folder_name)
-        except Exception as e:
-            print(e)
+    def copy_file_to_usb(self):
+        if not self.copy_files.empty():
+            path = self.copy_files.get()
+            try:
+                shutil.copy2(path, self.usb_path + "\\" + self.folder_name)
+            except Exception as e:
+                print(e)
 
     def scan_dir(self, dirs):
-        threads = []
-        for file in os.listdir(f'{self.path}\\{dirs}'):
-            time_stamp = time.ctime(os.path.getctime(f'{self.path}\\{dirs}\\{file}'))
+        path = f'{self.path}\\{dirs}'
+        for file in os.listdir(path):
+            time_stamp = time.ctime(os.path.getctime(f'{path}\\{file}'))
             if (self.is_date(time_stamp) and self.is_file_type(file)) or self.is_key_words(file):
                 print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
                 print(self.get_file_stt(file, time_stamp))
-                thread = threading.Thread(target=self.copy_file_to_usb, args=[f'{self.path}\\{dirs}\\{file}'])
-                thread.start()
-                threads.append(thread)
+                # adding file path to copy file queue
+                self.copy_files.put(f'{path}\\{file}')
 
-        for thread in threads:
-            thread.join()
+    def scan_dirs(self):
+        for dirs in self.directorys:
+            self.scan_dir(dirs)
 
-    def main_action(self):
+    def init_docPuller(self):
+        self.set_folder_name()
+        self.create_folder_in_usb()
+
+    def main_docPuller(self):
         global start_time
         start_time = time.perf_counter()
 
-        pool = multiprocessing.Pool(2)
-        for dirs in self.directorys:
-            pool.map(self.scan_dir, [dirs])
+        scan_thread = threading.Thread(target=self.scan_dirs)
+        copy_thread = threading.Thread(target=self.copy_file_to_usb)
 
+        scan_thread.start()
+        copy_thread.start()
 
     def main(self):
-        self.set_folder_name()
-        self.create_folder_in_usb()
-        self.main_action()
+        self.init_docPuller()
+        self.main_docPuller()
         print('done.')
-        print(time.perf_counter() - start_time)
+        print('time:', time.perf_counter() - start_time)
         # input()
 
 
