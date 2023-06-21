@@ -64,7 +64,7 @@ class DocPuller:
         return str(datetime.now())[:-10].replace("-", "~").replace(":", ".")
 
     def set_folder_name(self):
-        self.folder_name = os.getlogin() + 'docPull'
+        self.folder_name = f'{os.getlogin()} docPull {self.get_current_date()}'
 
     def create_folder_in_usb(self):
         os.chdir(self.usb_path)
@@ -83,8 +83,6 @@ class DocPuller:
                 path = self.copy_files.get()
                 thread = threading.Thread(target=self.copy_file, args=(path, self.usb_path + "\\" + self.folder_name))
                 thread.start()
-        print('niggers')
-
     def scan_dir(self, dirs):
         path = f'{self.path}\\{dirs}'
         for file in os.listdir(path):
