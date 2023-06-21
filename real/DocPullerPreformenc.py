@@ -13,107 +13,109 @@ start_time = 0
 
 class DocPuller:
 
-    def __init__(self):
-        self.directorys = ('Downloads', 'Desktop')
+    def __init__(self, directorys, file_types, key_words, months, years):
+        self.__running = True
 
-        self.months = ('Jun', "Oct", "Dec", 'Mar')
-        self.years = ('2023', '2022')
+        self.__directorys = directorys
 
-        self.file_types = ('.doc', '.pdf')
+        self.__file_types = file_types
+        self.__key_words = key_words
 
-        self.key_words = ('test', 'math')
+        self.__months = months
+        self.__years = years
 
-        self.USB_NAME = 'NO_NAME'
-        self.login = os.getlogin()
-        self.path = rf'C:\Users\{self.login}'
-        self.usb_path = self.get_usb_drive_letter()
-        print('usbfound', self.usb_path)
-        self.folder_name = ''
-        self.copy_files = Queue()
-        self.running = True
+        self.__copy_files = Queue()
 
-    def get_usb_drive_letter(self):
+        self.__USB_NAME = 'NO_NAME'
+
+        self.__login = os.getlogin()
+        self.__path = rf'C:\Users\{self.__login}'
+        self.__usb_path = self.__get_usb_drive_letter()
+
+        self.__folder_name = self.__set_folder_name()
+        self.__create_folder_in_usb()
+
+    # file specification check
+    def __is_date(self, time_stamp):
+        return time_stamp.split()[4] in self.__years and time_stamp.split()[1] in self.__months
+
+    def __is_file_type(self, file):
+        return os.path.splitext(file)[1] in self.__file_types
+
+    def __is_key_words(self, file):
+        is_key_word = False
+        for key_word in self.__key_words:
+            if key_word in file:
+                is_key_word = True
+        return is_key_word
+
+    # locates the usb
+    def __get_usb_drive_letter(self):
         command = 'wmic logicaldisk where drivetype=2 get caption, volumename'
         result = subprocess.run(command, shell=True, capture_output=True, text=True)
         result = result.stdout.replace(' ', '').strip().split('\n')
         for line in result:
-            if self.USB_NAME in line:
+            if self.__USB_NAME in line:
                 return line[0:2] + '\\'
         else:
             print('cant find usb')
             exit(1)
 
-    def is_date(self, time_stamp):
-        return time_stamp.split()[4] in self.years and time_stamp.split()[1] in self.months
+    def __get_file_stt(self, file, time_stamp):
+        return (file, "is type file " + str(self.__is_file_type(file)), "is date " + str(self.__is_date(time_stamp)),
+                "is special " + str(self.__is_key_words(file)))
 
-    def is_file_type(self, file):
-        return os.path.splitext(file)[1] in self.file_types
-
-    def is_key_words(self, file):
-        is_key_word = False
-        for key_word in self.key_words:
-            if key_word in file:
-                is_key_word = True
-        return is_key_word
-
-    def get_file_stt(self, file, time_stamp):
-        return (file, "is type file " + str(self.is_file_type(file)), "is date " + str(self.is_date(time_stamp)),
-                "is special " + str(self.is_key_words(file)))
-
-    def get_current_date(self):
+    def __get_current_date(self):
         return str(datetime.now())[:-10].replace("-", "~").replace(":", ".")
 
-    def set_folder_name(self):
-        self.folder_name = f'{os.getlogin()} docPull {self.get_current_date()}'
+    def __set_folder_name(self):
+        self.__folder_name = f'{os.getlogin()} docPull {self.__get_current_date()}'
 
-    def create_folder_in_usb(self):
-        os.chdir(self.usb_path)
-        if not os.path.exists(self.folder_name):
-            os.mkdir(self.folder_name)
+    def __create_folder_in_usb(self):
+        os.chdir(self.__usb_path)
+        if not os.path.exists(self.__folder_name):
+            os.mkdir(self.__folder_name)
 
-    def copy_file(self, path, path2):
+    def __copy_file(self, path, path2):
         try:
             shutil.copy2(path, path2)
         except Exception as e:
             print(e)
 
-    def copy_file_to_usb(self):
-        while self.running or not self.copy_files.empty():
-            if not self.copy_files.empty():
-                path = self.copy_files.get()
-                thread = threading.Thread(target=self.copy_file, args=(path, self.usb_path + "\\" + self.folder_name))
+    def __copy_file_to_usb(self):
+        while self.__running or not self.__copy_files.empty():
+            if not self.__copy_files.empty():
+                path = self.__copy_files.get()
+                thread = threading.Thread(target=self.__copy_file,
+                                          args=(path, self.__usb_path + "\\" + self.__folder_name))
                 thread.start()
-    def scan_dir(self, dirs):
-        path = f'{self.path}\\{dirs}'
+
+    def __scan_dir(self, dirs):
+        path = f'{self.__path}\\{dirs}'
         for file in os.listdir(path):
             time_stamp = time.ctime(os.path.getctime(f'{path}\\{file}'))
-            if (self.is_date(time_stamp) and self.is_file_type(file)) or self.is_key_words(file):
+            if (self.__is_date(time_stamp) and self.__is_file_type(file)) or self.__is_key_words(file):
                 print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-                print(self.get_file_stt(file, time_stamp))
-                # adding file path to copy file queue
-                self.copy_files.put(f'{path}\\{file}')
+                print(self.__get_file_stt(file, time_stamp))
+                self.__copy_files.put(f'{path}\\{file}')
 
-    def scan_dirs(self):
+    def __scan_dirs(self):
         threads = []
-        for dirs in self.directorys:
-            thread = threading.Thread(target=self.scan_dir, args=(dirs,))
+        for dirs in self.__directorys:
+            thread = threading.Thread(target=self.__scan_dir, args=(dirs,))
             thread.start()
             threads.append(thread)
 
         for thread in threads:
             thread.join()
-        self.running = False
+        self.__running = False
 
-    def init_docPuller(self):
-        self.set_folder_name()
-        self.create_folder_in_usb()
-
-    def main_docPuller(self):
+    def __main_docPuller(self):
         global start_time
         start_time = time.perf_counter()
 
-        scan_thread = threading.Thread(target=self.scan_dirs)
-        copy_thread = threading.Thread(target=self.copy_file_to_usb)
+        scan_thread = threading.Thread(target=self.__scan_dirs)
+        copy_thread = threading.Thread(target=self.__copy_file_to_usb)
 
         scan_thread.start()
         copy_thread.start()
@@ -122,12 +124,14 @@ class DocPuller:
         copy_thread.join()
 
     def main(self):
-        self.init_docPuller()
-        self.main_docPuller()
+        self.__main_docPuller()
         print('done.')
         print('time:', time.perf_counter() - start_time)
-        # input()
 
 
 if __name__ == '__main__':
-    DocPuller().main()
+    docPuller = DocPuller(
+        ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), ('Jun', 'May', 'Apr'), ('2023', '2022')
+    )
+
+    docPuller.main()
