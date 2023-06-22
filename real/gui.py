@@ -4,8 +4,8 @@ from tkcalendar import DateEntry
 from PIL import Image, ImageTk
 
 def submit():
-    selected_from_date = from_date_entry.get_date().strftime("%d/%m/%Y")
-    selected_to_date = to_date_entry.get_date().strftime("%d/%m/%Y")
+    selected_from_date = from_date_entry.get_date().strftime("%d-%m-%Y")
+    selected_to_date = to_date_entry.get_date().strftime("%d-%m-%Y")
     selected_radio = radio_var.get()
     keywords = keyword_entry.get("1.0", tk.END).strip()
 

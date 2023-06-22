@@ -13,7 +13,7 @@ start_time = 0
 
 class DocPuller:
 
-    def __init__(self, directorys, file_types, key_words, months, years):
+    def __init__(self, directorys, file_types, key_words, date):
         self.__running = True
 
         self.__directorys = directorys
@@ -21,8 +21,7 @@ class DocPuller:
         self.__file_types = file_types
         self.__key_words = key_words
 
-        self.__months = months
-        self.__years = years
+        self.date = date
 
         self.__copy_files = Queue()
 
@@ -37,7 +36,12 @@ class DocPuller:
 
     # file specification check
     def __is_date(self, time_stamp):
-        return time_stamp.split()[4] in self.__years and time_stamp.split()[1] in self.__months
+        is_date = False
+        for year in self.date.keys():
+            for month in self.date.get(year):
+                if time_stamp.split('-')[2] == year and time_stamp.split()[1] == month:
+                    is_date = True
+        return is_date
 
     def __is_file_type(self, file):
         return os.path.splitext(file)[1] in self.__file_types
@@ -93,7 +97,7 @@ class DocPuller:
     def __scan_dir(self, dirs):
         path = f'{self.__path}\\{dirs}'
         for file in os.listdir(path):
-            time_stamp = time.ctime(os.path.getctime(f'{path}\\{file}'))
+            time_stamp = datetime.fromtimestamp(os.path.getmtime(f'{path}\\{file}')).date().strftime("%d-%m-%Y")
             if (self.__is_date(time_stamp) and self.__is_file_type(file)) or self.__is_key_words(file):
                 print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
                 print(self.__get_file_stt(file, time_stamp))
