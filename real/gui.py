@@ -25,19 +25,19 @@ def submit():
 def update_selected_directories(event):
     text = directory_entry.get("1.0", tk.END).strip()
     global last_count_of_directories
-    if text.count(',') != last_count_of_directories or text.count(',') == 0:
+    if text.count(',') != last_count_of_directories or text.count(',') < 1:
         last_count_of_directories = text.count(',')
         selected_directories = text.split(',')
-        selected_directory_label.config(text=f"Selected: {' '.join(selected_directories)}")
+        selected_directory_label.config(text=f"Selected: {', '.join(selected_directories)}")
 
 
 def update_selected_keywords(event):
     text = keyword_entry.get("1.0", tk.END).strip()
     global last_count_of_keywords
-    if text.count(',') != last_count_of_keywords or text.count(',') == 0:
+    if text.count(',') != last_count_of_keywords or text.count(',') < 1:
         last_count_of_keywords = text.count(',')
         selected_keywords = text.split(",")
-        selected_keywords_label.config(text=f"Selected: {''.join(selected_keywords)}")
+        selected_keywords_label.config(text=f"Selected: {', '.join(selected_keywords)}")
 
 
 # Create the main window
