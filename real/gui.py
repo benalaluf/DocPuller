@@ -3,6 +3,8 @@ from tkinter import messagebox
 from tkcalendar import DateEntry
 from PIL import Image, ImageTk
 
+GRAY_ = 'gray20'
+
 last_count_of_directories = 0
 last_count_of_keywords = 0
 entrys_width = 40
@@ -57,51 +59,55 @@ background_label = tk.Label(window, image=background_photo)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Headline
-headline = tk.Label(window, text="DocPuller", font=("Arial", 24, "bold"), bg='gray20')
+headline = tk.Label(window, text="DocPuller", font=("Arial", 24, "bold"), bg=GRAY_)
 headline.pack(pady=10)
 
 # Section 0: Free Text Directory Entry
-section0 = tk.Frame(window, width=entrys_width)
+section0 = tk.Frame(window, width=entrys_width, bg=GRAY_)
 section0.pack(pady=10)
 
-directory_label = tk.Label(section0, text="Directories", bg='gray20',width=entrys_width)
+directory_label = tk.Label(section0, text="Directories", font=("Arial", 10), bg=GRAY_, width=entrys_width)
 directory_label.pack()
 
-directory_entry = tk.Text(section0, height=4, width=entrys_width, bg='gray20',)
+directory_entry = tk.Text(section0, height=4, width=entrys_width, bg=GRAY_, )
 directory_entry.pack()
 
-selected_directory_label = tk.Label(section0, text='Selected:', font=("Arial", 12), bg='gray20',width=entrys_width,anchor='w')
+selected_directory_label = tk.Label(section0, text='Selected:', font=("Arial", 8), bg=GRAY_, width=entrys_width, anchor='w')
 selected_directory_label.pack(anchor='w', pady=5)
 
 # Section 1: Date Selection
-section1 = tk.Frame(window, width=entrys_width)
+section1 = tk.Frame(window, width=40, bg=GRAY_)
 section1.pack(pady=10)
 
-from_date_label = tk.Label(section1, text="From:", bg='gray20',padx=10)
+
+date_label = tk.Label(section1, text="Date", font=("Arial", 10), bg=GRAY_, width=entrys_width)
+date_label.pack(pady=5)
+
+from_date_label = tk.Label(section1, text="From:", bg=GRAY_, padx=10)
 from_date_label.pack(side="left")
 
-from_date_entry = DateEntry(section1, date_pattern="dd/mm/yy", show_weeknumbers=False, bg='gray20')
+from_date_entry = DateEntry(section1, date_pattern="dd/mm/yy", show_weeknumbers=False)
 from_date_entry.pack(side="left")
 
-to_date_label = tk.Label(section1, text="To:", bg='gray20',padx=10)
+to_date_label = tk.Label(section1, text="To:", bg=GRAY_, padx=10)
 to_date_label.pack(side="left")
 
-to_date_entry = DateEntry(section1, date_pattern="dd/mm/yy", show_weeknumbers=False, bg='gray20')
+to_date_entry = DateEntry(section1, date_pattern="dd/mm/yy", show_weeknumbers=False)
 to_date_entry.pack(side="left")
 
 # Section 2: Radio Buttons
-section2 = tk.Frame(window, width=entrys_width)
+section2 = tk.Frame(window, width=entrys_width, bg=GRAY_)
 section2.pack(pady=10)
 
-radio_label = tk.Label(section2, text="File Types", bg='gray20',width=entrys_width)
+radio_label = tk.Label(section2, text="File Types", font=("Arial", 10),bg=GRAY_, width=entrys_width)
 radio_label.pack()
 
 radio_var = tk.StringVar()
 
-radio1 = tk.Radiobutton(section2, text="Document Type", variable=radio_var, value="Option 1", bg='gray20', )
+radio1 = tk.Radiobutton(section2, text="Document Type", variable=radio_var, value="Option 1", bg=GRAY_, )
 radio1.pack(side='left', padx=40)
 
-radio2 = tk.Radiobutton(section2, text="Every File Type", variable=radio_var, value="Option 2", bg='gray20',)
+radio2 = tk.Radiobutton(section2, text="Every File Type", variable=radio_var, value="Option 2", bg=GRAY_, )
 radio2.pack(side='left')
 
 
@@ -109,23 +115,23 @@ radio2.pack(side='left')
 
 
 # Section 3: Free Text Entry
-section3 = tk.Frame(window, width=entrys_width)
+section3 = tk.Frame(window, width=entrys_width, bg=GRAY_)
 section3.pack(pady=10)
 
-keyword_label = tk.Label(section3, text="Keywords", bg='gray20', width=entrys_width)
+keyword_label = tk.Label(section3, text="Keywords", font=("Arial", 10), bg=GRAY_, width=entrys_width)
 keyword_label.pack()
 
-keyword_entry = tk.Text(section3, height=4, width=entrys_width, bg='gray20')
+keyword_entry = tk.Text(section3, height=4, width=entrys_width, bg=GRAY_)
 keyword_entry.pack()
 
-selected_keywords_label = tk.Label(section3, text='Selected:', font=("Arial", 12), bg='gray20', width=entrys_width, anchor='w')
+selected_keywords_label = tk.Label(section3, text='Selected:', font=("Arial", 8), bg=GRAY_, width=entrys_width, anchor='w')
 selected_keywords_label.pack(anchor='w',pady=5)
 
 # Section 4: Submit Button
 section4 = tk.Frame(window)
 section4.pack(pady=10)
 
-submit_button = tk.Button(section4, text="Generate", command=submit, width=20, height=3)
+submit_button = tk.Button(section4, text="Generate", command=submit, width=30, height=3,)
 submit_button.pack()
 
 # Bind the directory entry to update the selected directories label
