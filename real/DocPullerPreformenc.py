@@ -39,7 +39,7 @@ class DocPuller:
         is_date = False
         for year in self.date.keys():
             for month in self.date.get(year):
-                if time_stamp.split('-')[2] == year and time_stamp.split()[1] == month:
+                if time_stamp.split('-')[2] == year and time_stamp.split('-')[1] == month:
                     is_date = True
         return is_date
 
@@ -73,7 +73,7 @@ class DocPuller:
         return str(datetime.now())[:-10].replace("-", "~").replace(":", ".")
 
     def __set_folder_name(self):
-        self.__folder_name = f'{os.getlogin()} docPull {self.__get_current_date()}'
+        return f'{os.getlogin()} docPull {self.__get_current_date()}'
 
     def __create_folder_in_usb(self):
         os.chdir(self.__usb_path)
@@ -135,7 +135,7 @@ class DocPuller:
 
 if __name__ == '__main__':
     docPuller = DocPuller(
-        ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), ('Jun', 'May', 'Apr'), ('2023', '2022')
+        ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), {'2023': ('06', '05',)}
     )
 
     docPuller.main()
