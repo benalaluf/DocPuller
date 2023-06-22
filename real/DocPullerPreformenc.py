@@ -97,7 +97,7 @@ class DocPuller:
     def __scan_dir(self, dirs):
         path = f'{self.__path}\\{dirs}'
         for file in os.listdir(path):
-            time_stamp = datetime.fromtimestamp(os.path.getmtime(f'{path}\\{file}')).date().strftime("%d-%m-%Y")
+            time_stamp = datetime.fromtimestamp(os.path.getctime(f'{path}\\{file}')).date().strftime("%d-%m-%Y")
             if (self.__is_date(time_stamp) and self.__is_file_type(file)) or self.__is_key_words(file):
                 print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
                 print(self.__get_file_stt(file, time_stamp))
