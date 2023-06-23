@@ -1,12 +1,10 @@
 __author__ = 'ben'
 
 import os
-import random
 import socket
 import threading
-from datetime import datetime
 
-from real.DocPullerFTP.protocol import Protocol
+from real.DocPullerScripts.DocPullerFTP.protocol import Protocol
 
 
 class Server(Protocol):
