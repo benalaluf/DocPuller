@@ -2,16 +2,9 @@ __author__ = 'Ben'
 
 import subprocess
 import threading
-from abc import ABC
-from datetime import datetime
 import os
 import shutil
-import time
-from queue import Queue
-
 from real.DocPullerScripts.DocPullerGenric import DocPuller
-
-start_time = 0
 
 
 class DocPullerUSB(DocPuller):
@@ -40,7 +33,7 @@ class DocPullerUSB(DocPuller):
         if not os.path.exists(self._folder_name):
             os.mkdir(self._folder_name)
 
-    # copys file from path to path2
+    # copy file from path to path2
     def __copy_file(self, path, path2):
         try:
             shutil.copy2(path, path2)
@@ -56,10 +49,13 @@ class DocPullerUSB(DocPuller):
                                           args=(path, self.__usb_path + "\\" + self._folder_name))
                 thread.start()
 
+    def main(self):
+        self._main()
+
 
 if __name__ == '__main__':
     docPuller = DocPullerUSB(
         ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), {'2023': ('06', '05',)}
     )
 
-    docPuller._main()
+    docPuller.main()

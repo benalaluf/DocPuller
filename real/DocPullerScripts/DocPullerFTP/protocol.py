@@ -3,9 +3,8 @@ import struct
 
 class Protocol:
     def __init__(self, server, port):
-        self.HEADER = 4
-        self.SERVER = '192.168.1.133'
-        self.PORT = 8082
+        self.SERVER = server
+        self.PORT = port
         self.ADDR = (self.SERVER, self.PORT)
         self.FORMAT = 'utf-8'
         self.DISCONNECT_MSG = 'EXIT'

@@ -7,7 +7,10 @@ from datetime import datetime
 import os
 from queue import Queue
 
-starttime = 0
+# remove before publish
+start_time = 0
+
+
 class DocPuller(ABC):
     def __init__(self, directorys, file_types, key_words, date):
         self._running = True
@@ -79,8 +82,8 @@ class DocPuller(ABC):
         self._running = False
 
     def __main_docpuller(self):
-        global starttime
-        starttime = time.perf_counter()
+        global start_time
+        start_time = time.perf_counter()
         scan_thread = threading.Thread(target=self._scan_dirs)
         pull_thread = threading.Thread(target=self._pull_files)
 
@@ -92,4 +95,4 @@ class DocPuller(ABC):
 
     def _main(self):
         self.__main_docpuller()
-        print(time.perf_counter() - starttime)
+        print(time.perf_counter() - start_time)
