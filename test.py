@@ -1,11 +1,3 @@
-import os
-import time
+import sys
 
-# Using the timestamp string to create a
-# time object/structure
-from datetime import datetime
-
-
-pok = 'aaaa'
-
-print(pok.count('a'))
+print(sys.byteorder)
