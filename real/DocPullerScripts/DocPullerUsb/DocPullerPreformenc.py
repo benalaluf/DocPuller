@@ -2,6 +2,7 @@ __author__ = 'Ben'
 
 import subprocess
 import threading
+from abc import ABC
 from datetime import datetime
 import os
 import shutil
@@ -17,10 +18,8 @@ class DocPullerUSB(DocPuller):
 
     def __init__(self, directorys, file_types, key_words, date):
         super().__init__(directorys, file_types, key_words, date)
-        self.__USB_NAME = 'DocPuller'
+        self.__USB_NAME = 'DOCPULLER'
         self.__usb_path = self.__get_usb_drive_letter()
-
-        self.__folder_name = self.__set_folder_name()
         self.__create_folder_in_usb()
 
     # locates the usb
@@ -38,8 +37,8 @@ class DocPullerUSB(DocPuller):
     # creates folder in usb for the files to be copy to
     def __create_folder_in_usb(self):
         os.chdir(self.__usb_path)
-        if not os.path.exists(self.__folder_name):
-            os.mkdir(self.__folder_name)
+        if not os.path.exists(self._folder_name):
+            os.mkdir(self._folder_name)
 
     # copys file from path to path2
     def __copy_file(self, path, path2):
@@ -49,12 +48,12 @@ class DocPullerUSB(DocPuller):
             print(e)
 
     # overriding abstract method
-    def __pull_files(self):
-        while self.__running or not self.__pull_files_queue.empty():
-            if not self.__pull_files_queue.empty():
-                path = self.__pull_files_queue.get()
+    def _pull_files(self):
+        while self._running or not self._pull_files_queue.empty():
+            if not self._pull_files_queue.empty():
+                path = self._pull_files_queue.get()
                 thread = threading.Thread(target=self.__copy_file,
-                                          args=(path, self.__usb_path + "\\" + self.__folder_name))
+                                          args=(path, self.__usb_path + "\\" + self._folder_name))
                 thread.start()
 
 
@@ -63,4 +62,4 @@ if __name__ == '__main__':
         ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), {'2023': ('06', '05',)}
     )
 
-    docPuller.main()
+    docPuller._main()
