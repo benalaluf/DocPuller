@@ -15,14 +15,14 @@ class Protocol:
         return file_name, file_data
 
     def send_file(self, sock, filename, filedata):
-        self.__send_string(sock, filename)
+        self._send_string(sock, filename)
         self.__send_data(sock, filedata)
 
     def __send_data(self, sock, data):
         data = struct.pack('>Q', len(data)) + data
         sock.sendall(data)
 
-    def __send_string(self, sock, data):
+    def _send_string(self, sock, data):
         data = struct.pack('>I', len(data)) + data
         sock.sendall(data)
 

@@ -4,7 +4,7 @@ import subprocess
 import threading
 import os
 import shutil
-from real.DocPullerScripts.DocPullerGenric import DocPuller
+from DocPullerScripts.DocPullerGenric import DocPuller
 
 
 class DocPullerUSB(DocPuller):
