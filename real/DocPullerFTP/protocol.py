@@ -4,7 +4,7 @@ import struct
 class Protocol:
     def __init__(self, server, port):
         self.HEADER = 4
-        self.SERVER = '127.0.0.1'
+        self.SERVER = '192.168.1.133'
         self.PORT = 8082
         self.ADDR = (self.SERVER, self.PORT)
         self.FORMAT = 'utf-8'
