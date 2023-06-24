@@ -99,21 +99,22 @@ class MainWindow(QWidget):
 
         layout.addLayout(mode_selection_layout)
 
-        # FTP Server IP and Port
-        self.server_ip_label = QLabel('Server IP:')
-        self.server_ip_entry = QLineEdit(self)
-        self.server_port_label = QLabel('Server Port:')
-        self.server_port_entry = QLineEdit(self)
-
         # Form layout for input fields
         form_layout = QFormLayout()
         form_layout.setFieldGrowthPolicy(QFormLayout.AllNonFixedFieldsGrow)
+
+
 
         # Directory Choosing Entry
         self.directory_entry = BoldRedTextEdit(self)
         self.directory_entry.setPlaceholderText('Enter directory names (separated by spaces)')
         self.directory_entry.setFixedHeight(70)
-        form_layout.addRow(QLabel('Directories:'), self.directory_entry)
+        self.directory_entry.setStyleSheet("font-size: 16px;")
+        self.directory_label = QLabel('Directories:')
+        self.directory_label.setStyleSheet("""
+            font-size: 16px;
+        """)
+        form_layout.addRow(self.directory_label, self.directory_entry)
 
         # Date Entry (From and To)
         self.date_from = QDateTimeEdit(self)
@@ -127,7 +128,12 @@ class MainWindow(QWidget):
                 font: 16px;
             }
         """)
-        form_layout.addRow(QLabel('Date From:'), self.date_from)
+        self.date_from_label = QLabel('Date From:')
+        self.date_from_label.setStyleSheet("""
+            font-size: 16px;
+            text-align: left;
+        """)
+        form_layout.addRow(self.date_from_label, self.date_from)
 
         self.date_to = QDateTimeEdit(self)
         self.date_to.setDisplayFormat("dd/MM/yyyy")
@@ -141,7 +147,12 @@ class MainWindow(QWidget):
                 font: 16px;
             }
         """)
-        form_layout.addRow(QLabel('Date To:'), self.date_to)
+        self.date_to_label = QLabel('Date To:')
+        self.date_to_label.setStyleSheet("""
+            font-size: 16px;
+            text-align: left;
+        """)
+        form_layout.addRow(self.date_to_label, self.date_to)
 
         # File Type Entry
         self.file_type_entry = QComboBox(self)
@@ -157,14 +168,37 @@ class MainWindow(QWidget):
                 font: 16px;
             }
         """)
-        form_layout.addRow(QLabel('File Type:'), self.file_type_entry)
+        self.file_type_label = QLabel('File Type:')
+        self.file_type_label.setStyleSheet("""
+            font-size: 16px;
+        """)
+        form_layout.addRow(self.file_type_label, self.file_type_entry)
 
         # Keyword Entry
         self.keyword_entry = BoldRedTextEdit(self)
         self.keyword_entry.setPlaceholderText('Enter keywords (separated by spaces)')
         self.keyword_entry.setFixedHeight(70)
-        form_layout.addRow(QLabel('Keywords:'), self.keyword_entry)
+        self.keyword_entry.setStyleSheet("font-size: 16px;")
+
+        self.keyword_label = QLabel('Keywords:')
+        self.keyword_label.setStyleSheet("""
+            font-size: 16px;
+            text-align: left;
+        """)
+        form_layout.addRow(self.keyword_label, self.keyword_entry)
         layout.addLayout(form_layout)
+        form_layout.setLabelAlignment(Qt.AlignLeft)
+
+        # FTP Server IP and Port
+        self.server_ip_label = QLabel('Server IP:')
+        self.server_ip_entry = QLineEdit(self)
+        self.server_port_label = QLabel('Server Port:')
+        self.server_port_entry = QLineEdit(self)
+
+        self.server_ip_label.setParent(None)
+        self.server_ip_entry.setParent(None)
+        self.server_port_label.setParent(None)
+        self.server_port_entry.setParent(None)
 
         # Generate Button
         self.generate_button = QPushButton('Generate', self)
