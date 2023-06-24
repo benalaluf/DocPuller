@@ -1,7 +1,11 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPlainTextEdit, QPushButton, \
-    QFileDialog, QDateTimeEdit, QComboBox, QGraphicsOpacityEffect, QLineEdit, QFormLayout
-from PyQt5.QtGui import QPixmap, QPalette, QBrush, QFont, QTextCharFormat, QTextCursor, QIcon
+from PyQt5.QtWidgets import (
+    QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPlainTextEdit, QPushButton,
+    QFileDialog, QDateTimeEdit, QComboBox, QLineEdit, QFormLayout
+)
+from PyQt5.QtGui import (
+    QPixmap, QPalette, QBrush, QFont, QTextCharFormat, QTextCursor, QIcon
+)
 from PyQt5.QtCore import Qt, QDateTime
 
 
@@ -46,42 +50,54 @@ class MainWindow(QWidget):
 
         # Headline
         headline = QLabel('DocPuller', self)
-        headline.setFont(QFont('Arial', 24))
+        headline.setFont(QFont('Arial', 32, QFont.Bold))
         headline.setAlignment(Qt.AlignCenter)
         layout.addWidget(headline)
 
         # Mode selection buttons
         mode_selection_layout = QHBoxLayout()
+
         self.usb_button = QPushButton('USB', self)
+        self.usb_button.setCheckable(True)
+        self.usb_button.setChecked(True)
         self.usb_button.clicked.connect(lambda: self.change_mode(0))
         self.usb_button.setStyleSheet("""
             QPushButton {
-                font: 14px;
-                border: 1px solid gray;
-                border-radius: 5px;
-                padding: 5px;
-                background-color: white;
-                color: black;
+                font: 16px;
+                border: 2px solid #555555;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: #ffffff;
+                color: #555555;
+            }
+            QPushButton:checked {
+                background-color: #555555;
+                color: #ffffff;
             }
             QPushButton:hover {
-                background-color: rgba(200, 200, 200, 50);
+                background-color: #f0f0f0;
             }
         """)
         mode_selection_layout.addWidget(self.usb_button)
 
         self.ftp_button = QPushButton('FTP', self)
+        self.ftp_button.setCheckable(True)
         self.ftp_button.clicked.connect(lambda: self.change_mode(1))
         self.ftp_button.setStyleSheet("""
             QPushButton {
-                font: 14px;
-                border: 1px solid gray;
-                border-radius: 5px;
-                padding: 5px;
-                background-color: white;
-                color: black;
+                font: 16px;
+                border: 2px solid #555555;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: #ffffff;
+                color: #555555;
+            }
+            QPushButton:checked {
+                background-color: #555555;
+                color: #ffffff;
             }
             QPushButton:hover {
-                background-color: rgba(200, 200, 200, 50);
+                background-color: #f0f0f0;
             }
         """)
         mode_selection_layout.addWidget(self.ftp_button)
@@ -96,11 +112,12 @@ class MainWindow(QWidget):
 
         # Form layout for input fields
         form_layout = QFormLayout()
+        form_layout.setFieldGrowthPolicy(QFormLayout.AllNonFixedFieldsGrow)
 
         # Directory Choosing Entry
         self.directory_entry = BoldRedTextEdit(self)
         self.directory_entry.setPlaceholderText('Enter directory names (separated by spaces)')
-        self.directory_entry.setFixedHeight(50)
+        self.directory_entry.setFixedHeight(70)
         form_layout.addRow(QLabel('Directories:'), self.directory_entry)
 
         # Date Entry (From and To)
@@ -127,7 +144,7 @@ class MainWindow(QWidget):
         # Keyword Entry
         self.keyword_entry = BoldRedTextEdit(self)
         self.keyword_entry.setPlaceholderText('Enter keywords (separated by spaces)')
-        self.keyword_entry.setFixedHeight(50)
+        self.keyword_entry.setFixedHeight(70)
         form_layout.addRow(QLabel('Keywords:'), self.keyword_entry)
         layout.addLayout(form_layout)
 
@@ -135,15 +152,15 @@ class MainWindow(QWidget):
         self.generate_button = QPushButton('Generate', self)
         self.generate_button.setStyleSheet("""
             QPushButton {
-                font: 14px;
-                border: 1px solid gray;
-                border-radius: 5px;
-                padding: 5px;
-                background-color: white;
-                color: black;
+                font: 16px;
+                border: 2px solid #555555;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: #555555;
+                color: #ffffff;
             }
             QPushButton:hover {
-                background-color: rgba(200, 200, 200, 50);
+                background-color: #777777;
             }
         """)
         layout.addWidget(self.generate_button)
@@ -153,31 +170,30 @@ class MainWindow(QWidget):
 
     def update_background(self):
         background_image_path = 'background.jpeg'
-        background = QPixmap(background_image_path).scaled(self.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
+        background = QPixmap(background_image_path).scaled(
+            self.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation
+        )
         palette = QPalette()
         palette.setBrush(QPalette.Background, QBrush(background))
         self.setPalette(palette)
-
 
     def resizeEvent(self, event):
         self.update_background()
         super(MainWindow, self).resizeEvent(event)
 
     def change_mode(self, index):
-        if index == 1:  # FTP mode
-            self.layout().insertWidget(3, self.server_ip_label)
-            self.layout().insertWidget(4, self.server_ip_entry)
-            self.layout().insertWidget(5, self.server_port_label)
-            self.layout().insertWidget(6, self.server_port_entry)
-        else:  # USB mode
-            self.layout().removeWidget(self.server_ip_label)
-            self.layout().removeWidget(self.server_ip_entry)
-            self.layout().removeWidget(self.server_port_label)
-            self.layout().removeWidget(self.server_port_entry)
+        if index == 0:  # USB mode
+            self.ftp_button.setChecked(False)
             self.server_ip_label.setParent(None)
             self.server_ip_entry.setParent(None)
             self.server_port_label.setParent(None)
             self.server_port_entry.setParent(None)
+        else:  # FTP mode
+            self.usb_button.setChecked(False)
+            self.layout().insertWidget(3, self.server_ip_label)
+            self.layout().insertWidget(4, self.server_ip_entry)
+            self.layout().insertWidget(5, self.server_port_label)
+            self.layout().insertWidget(6, self.server_port_entry)
 
 
 if __name__ == '__main__':
