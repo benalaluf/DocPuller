@@ -50,7 +50,7 @@ class MainWindow(QWidget):
 
         # Headline
         headline = QLabel('DocPuller', self)
-        headline.setFont(QFont('Arial', 32, QFont.Bold))
+        headline.setFont(QFont('Arial', 40, QFont.Bold))
         headline.setAlignment(Qt.AlignCenter)
         layout.addWidget(headline)
 
@@ -63,10 +63,10 @@ class MainWindow(QWidget):
         self.usb_button.clicked.connect(lambda: self.change_mode(0))
         self.usb_button.setStyleSheet("""
             QPushButton {
-                font: 16px;
+                font: 18px;
                 border: 2px solid #555555;
-                border-radius: 10px;
-                padding: 10px;
+                border-radius: 15px;
+                padding: 12px;
                 background-color: #555555;
                 color: #ffffff;
             }
@@ -83,10 +83,10 @@ class MainWindow(QWidget):
         self.ftp_button.clicked.connect(lambda: self.change_mode(1))
         self.ftp_button.setStyleSheet("""
             QPushButton {
-                font: 16px;
+                font: 18px;
                 border: 2px solid #555555;
-                border-radius: 10px;
-                padding: 10px;
+                border-radius: 15px;
+                padding: 12px;
                 background-color: #555555;
                 color: #ffffff;
             }
@@ -119,13 +119,28 @@ class MainWindow(QWidget):
         self.date_from = QDateTimeEdit(self)
         self.date_from.setDisplayFormat("dd/MM/yyyy")
         self.date_from.setCalendarPopup(True)
-        self.date_from.autoFillBackground()
+        self.date_from.setStyleSheet("""
+            QDateTimeEdit {
+                border: 2px solid #555555;
+                border-radius: 15px;
+                padding: 10px;
+                font: 16px;
+            }
+        """)
         form_layout.addRow(QLabel('Date From:'), self.date_from)
 
         self.date_to = QDateTimeEdit(self)
         self.date_to.setDisplayFormat("dd/MM/yyyy")
         self.date_to.setCalendarPopup(True)
         self.date_to.setDateTime(QDateTime.currentDateTime())
+        self.date_to.setStyleSheet("""
+            QDateTimeEdit {
+                border: 2px solid #555555;
+                border-radius: 15px;
+                padding: 10px;
+                font: 16px;
+            }
+        """)
         form_layout.addRow(QLabel('Date To:'), self.date_to)
 
         # File Type Entry
@@ -134,6 +149,14 @@ class MainWindow(QWidget):
         self.file_type_entry.addItem("Image")
         self.file_type_entry.addItem("Audio")
         self.file_type_entry.addItem("Video")
+        self.file_type_entry.setStyleSheet("""
+            QComboBox {
+                border: 2px solid #555555;
+                border-radius: 15px;
+                padding: 10px;
+                font: 16px;
+            }
+        """)
         form_layout.addRow(QLabel('File Type:'), self.file_type_entry)
 
         # Keyword Entry
@@ -147,10 +170,10 @@ class MainWindow(QWidget):
         self.generate_button = QPushButton('Generate', self)
         self.generate_button.setStyleSheet("""
             QPushButton {
-                font: 16px;
+                font: 18px;
                 border: 2px solid #555555;
-                border-radius: 10px;
-                padding: 10px;
+                border-radius: 15px;
+                padding: 12px;
                 background-color: #555555;
                 color: #ffffff;
             }
