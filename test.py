@@ -30,7 +30,7 @@ class BoldRedTextEdit(QPlainTextEdit):
             format_words = QTextCharFormat()
             format_words.setFontWeight(QFont.Bold)
             format_words.setFontItalic(True)
-            format_words.setForeground(Qt.red)
+            format_words.setForeground(Qt.cyan)
 
             cursor.setPosition(len(self.previous_text))
             cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.KeepAnchor)
