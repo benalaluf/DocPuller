@@ -44,7 +44,7 @@ class MainWindow(QWidget):
 
         self.setWindowTitle('DocPuller')
         self.setWindowIcon(QIcon('background.jpeg'))
-        self.setGeometry(100, 100, 400, 400)
+        self.setGeometry(100, 100, 500, 600)
 
         layout = QVBoxLayout()
 
@@ -67,21 +67,19 @@ class MainWindow(QWidget):
                 border: 2px solid #555555;
                 border-radius: 10px;
                 padding: 10px;
-                background-color: #ffffff;
-                color: #555555;
-            }
-            QPushButton:checked {
                 background-color: #555555;
                 color: #ffffff;
             }
-            QPushButton:hover {
-                background-color: #f0f0f0;
+            QPushButton:checked {
+                background-color: #ffffff;
+                color: #555555;
             }
         """)
         mode_selection_layout.addWidget(self.usb_button)
 
         self.ftp_button = QPushButton('FTP', self)
         self.ftp_button.setCheckable(True)
+        self.ftp_button.setChecked(False)
         self.ftp_button.clicked.connect(lambda: self.change_mode(1))
         self.ftp_button.setStyleSheet("""
             QPushButton {
@@ -89,15 +87,12 @@ class MainWindow(QWidget):
                 border: 2px solid #555555;
                 border-radius: 10px;
                 padding: 10px;
-                background-color: #ffffff;
-                color: #555555;
-            }
-            QPushButton:checked {
                 background-color: #555555;
                 color: #ffffff;
             }
-            QPushButton:hover {
-                background-color: #f0f0f0;
+            QPushButton:checked {
+                background-color: #ffffff;
+                color: #555555;
             }
         """)
         mode_selection_layout.addWidget(self.ftp_button)
@@ -184,12 +179,14 @@ class MainWindow(QWidget):
     def change_mode(self, index):
         if index == 0:  # USB mode
             self.ftp_button.setChecked(False)
+            self.usb_button.setChecked(True)
             self.server_ip_label.setParent(None)
             self.server_ip_entry.setParent(None)
             self.server_port_label.setParent(None)
             self.server_port_entry.setParent(None)
         else:  # FTP mode
             self.usb_button.setChecked(False)
+            self.ftp_button.setChecked(True)
             self.layout().insertWidget(3, self.server_ip_label)
             self.layout().insertWidget(4, self.server_ip_entry)
             self.layout().insertWidget(5, self.server_port_label)
