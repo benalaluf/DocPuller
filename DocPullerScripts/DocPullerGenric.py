@@ -23,6 +23,7 @@ class DocPuller(ABC):
         self._date = date
 
         self._pull_files_queue = Queue()
+        self._mutex = threading.Lock()
 
         self._login = os.getlogin()
         self._path = rf'C:\Users\{self._login}'
@@ -68,7 +69,9 @@ class DocPuller(ABC):
             if (self.__is_date(time_stamp) and self.__is_file_type(file)) or self.__is_key_words(file):
                 # print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
                 # print(self.__get_file_stt(file, time_stamp))
+                self._mutex.acquire()
                 self._pull_files_queue.put(f'{path}\\{file}')
+                self._mutex.release()
 
     def _scan_dirs(self):
         threads = []

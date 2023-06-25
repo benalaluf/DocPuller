@@ -44,7 +44,9 @@ class DocPullerUSB(DocPuller):
     def _pull_files(self):
         while self._running or not self._pull_files_queue.empty():
             if not self._pull_files_queue.empty():
+                self._mutex.acquire()
                 path = self._pull_files_queue.get()
+                self._mutex.release()
                 thread = threading.Thread(target=self.__copy_file,
                                           args=(path, self.__usb_path + "\\" + self._folder_name))
                 thread.start()

