@@ -1,14 +1,16 @@
 import sys
-from PyQt5.QtWidgets import (
-    QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPlainTextEdit, QPushButton,
-    QFileDialog, QDateTimeEdit, QComboBox, QLineEdit, QFormLayout
-)
+import qdarktheme
+import tkinter as tk
+from tkinter import filedialog
+
+from PyQt5.QtCore import Qt, QDateTime
 from PyQt5.QtGui import (
     QPixmap, QPalette, QBrush, QFont, QTextCharFormat, QTextCursor, QIcon
 )
-from PyQt5.QtCore import Qt, QDateTime
-import tkinter as tk
-from tkinter import filedialog
+from PyQt5.QtWidgets import (
+    QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPlainTextEdit, QPushButton,
+    QDateTimeEdit, QComboBox, QLineEdit, QFormLayout
+)
 
 
 class BoldRedTextEdit(QPlainTextEdit):
@@ -31,7 +33,7 @@ class BoldRedTextEdit(QPlainTextEdit):
             # Apply formatting
             format_words = QTextCharFormat()
             format_words.setFontWeight(QFont.Bold)
-            format_words.setFontItalic(True)
+            # format_words.setFontItalic(True)
             format_words.setForeground(Qt.cyan)
 
             cursor.setPosition(len(self.previous_text))
@@ -46,7 +48,7 @@ class MainWindow(QWidget):
 
         self.setWindowTitle('DocPuller')
         self.setWindowIcon(QIcon('backgrond.jpeg'))
-        self.setGeometry(100, 100, 500, 600)
+        self.setGeometry(100, 100, 700, 850)
 
         layout = QVBoxLayout()
 
@@ -109,12 +111,13 @@ class MainWindow(QWidget):
 
         # Directory Choosing Entry
         self.directory_entry = BoldRedTextEdit(self)
+        self.directory_entry.setFont(QFont('Ariel'))
         self.directory_entry.setPlaceholderText('Enter directory names (separated by spaces)')
         self.directory_entry.setFixedHeight(70)
         self.directory_entry.setStyleSheet("font-size: 16px;")
         self.directory_label = QLabel('Directories:')
         self.directory_label.setStyleSheet("""
-            font-size: 16px;
+            font-size: 20px;
         """)
         form_layout.addRow(self.directory_label, self.directory_entry)
 
@@ -132,7 +135,7 @@ class MainWindow(QWidget):
         """)
         self.date_from_label = QLabel('Date From:')
         self.date_from_label.setStyleSheet("""
-            font-size: 16px;
+            font-size: 20px;
             text-align: left;
         """)
         form_layout.addRow(self.date_from_label, self.date_from)
@@ -151,7 +154,7 @@ class MainWindow(QWidget):
         """)
         self.date_to_label = QLabel('Date To:')
         self.date_to_label.setStyleSheet("""
-            font-size: 16px;
+            font-size: 20px;
             text-align: left;
         """)
         form_layout.addRow(self.date_to_label, self.date_to)
@@ -172,7 +175,7 @@ class MainWindow(QWidget):
         """)
         self.file_type_label = QLabel('File Type:')
         self.file_type_label.setStyleSheet("""
-            font-size: 16px;
+            font-size: 20px;
         """)
         form_layout.addRow(self.file_type_label, self.file_type_entry)
 
@@ -184,7 +187,7 @@ class MainWindow(QWidget):
 
         self.keyword_label = QLabel('Keywords:')
         self.keyword_label.setStyleSheet("""
-            font-size: 16px;
+            font-size: 20px;
             text-align: left;
         """)
         form_layout.addRow(self.keyword_label, self.keyword_entry)
@@ -225,7 +228,7 @@ class MainWindow(QWidget):
         self.update_background()
 
     def update_background(self):
-        background_image_path = 'GUI/background3.png'
+        background_image_path = 'GUI/cyber.jpg'
         background = QPixmap(background_image_path).scaled(
             self.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation
         )
@@ -282,6 +285,7 @@ class DocPullerGUI:
 
     def main(self):
         app = QApplication(sys.argv)
+        qdarktheme.setup_theme()
         main_window = MainWindow()
         main_window.show()
         sys.exit(app.exec_())
