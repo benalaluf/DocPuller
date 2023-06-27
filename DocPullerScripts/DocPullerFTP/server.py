@@ -28,7 +28,7 @@ class Server(Protocol):
         while connected:
             file_name, file_data = self.recv_file(conn)
             if file_name.decode() == self.DISCONNECT_MSG:
-                connected = False
+                break
             if file_name:
                 file_name = file_name.decode()
                 print('----------------------------------------')
@@ -36,7 +36,9 @@ class Server(Protocol):
                 with open(f'{folder}/{file_name}', 'wb') as f:
                     f.write(file_data)
 
-        conn.close()
+        else:
+            connected = False
+            conn.close()
 
     def start(self):
         self.server.listen()
@@ -53,4 +55,4 @@ class Server(Protocol):
 
 if __name__ == '__main__':
     print('SERVER IS STARTING :)')
-    Server('192.168.1.133', 8830, '/Users/benalaluf/Desktop').start()
+    Server('localhost', 8830, '/Users/benalaluf/Desktop').start()

