@@ -54,8 +54,9 @@ class MainWindow(QWidget):
 
         # Headline
         headline = QLabel('DocPuller', self)
-        headline.setFont(QFont('Arial', 40, QFont.Bold))
+        headline.setFont(QFont('Arial', 48, QFont.Bold))
         headline.setAlignment(Qt.AlignCenter)
+        headline.setStyleSheet("padding: px50")
         layout.addWidget(headline)
 
         # Mode selection buttons
@@ -228,7 +229,7 @@ class MainWindow(QWidget):
         self.update_background()
 
     def update_background(self):
-        background_image_path = 'GUI/cyber.jpg'
+        background_image_path = 'GUI/macos.jpeg'
         background = QPixmap(background_image_path).scaled(
             self.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation
         )

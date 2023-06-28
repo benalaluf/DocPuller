@@ -64,4 +64,4 @@ class Server(Protocol):
 
 if __name__ == '__main__':
     print('SERVER IS STARTING :)')
-    Server('192.168.1.133', 8830, '/Users/benalaluf/Desktop').start()
+    Server('localhost', 8830, '/Users/benalaluf/Desktop').start()
