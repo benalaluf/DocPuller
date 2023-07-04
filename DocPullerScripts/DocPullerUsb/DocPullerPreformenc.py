@@ -1,5 +1,6 @@
 __author__ = 'Ben'
 
+import datetime
 import subprocess
 import threading
 import os
@@ -57,7 +58,7 @@ class DocPullerUSB(DocPuller):
 
 if __name__ == '__main__':
     docPuller = DocPullerUSB(
-        ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), {'2023': ('06', '05',)}
+        ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), (datetime.date(2023,1,2),datetime.date(2024,1,1))
     )
 
     docPuller.main()
