@@ -30,13 +30,19 @@ class DocPuller(ABC):
         self._folder_name = self.__set_folder_name()
 
     # file specification check
-    def __is_date(self, time_stamp):
-        is_date = False
-        for year in self._date.keys():
-            for month in self._date.get(year):
-                if time_stamp.split('-')[2] == year and time_stamp.split('-')[1] == month:
-                    is_date = True
-        return is_date
+
+    def __is_date(self, date):
+        from_date = self._date[0]
+        to_date = self._date[1]
+        return from_date <= date <= to_date
+
+    # def __is_date(self, time_stamp):
+    #     is_date = False
+    #     for year in self._date.keys():
+    #         for month in self._date.get(year):
+    #             if time_stamp.split('-')[2] == self._date[year] and time_stamp.split('-')[1] == self._date.:
+    #                 is_date = True
+    #     return is_date
 
     def __is_file_type(self, file):
         return os.path.splitext(file)[1] in self._file_types
@@ -65,7 +71,7 @@ class DocPuller(ABC):
     def __scan_dir(self, dir):
         path = os.path.join(self._path, dir)
         for file in os.listdir(path):
-            time_stamp = datetime.fromtimestamp(os.path.getctime(os.path.join(path, file))).date().strftime("%d-%m-%Y")
+            time_stamp = datetime.fromtimestamp(os.path.getctime(os.path.join(path, file))).date()
             if (self.__is_date(time_stamp) and self.__is_file_type(file)) or self.__is_key_words(file):
                 # print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
                 # print(self.__get_file_stt(file, time_stamp))

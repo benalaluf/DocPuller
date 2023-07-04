@@ -1,3 +1,4 @@
+import pickle
 import sys
 import qdarktheme
 import tkinter as tk
@@ -262,24 +263,31 @@ class MainWindow(QWidget):
 
 
     def generate(self):
-        root = tk.Tk()
-        root.withdraw()
+        # root = tk.Tk()
+        # root.withdraw()
 
-        file_path = filedialog.askdirectory()
-        print(file_path)
+        # file_path = filedialog.askdirectory()
+        # print(file_path)
         # Retrieve values from the entries
+        is_docPuller_type_usb = self.usb_button.isChecked()
         directories = self.directory_entry.toPlainText().split()
-        date_from = self.date_from.dateTime().toString("dd-MM-yyyy")
-        date_to = self.date_to.dateTime().toString("dd-MM-yyyy")
+        date_from = self.date_from.dateTime().date().toPyDate()
+        date_to = self.date_to.dateTime().date().toPyDate()
         file_type = self.file_type_entry.currentText()
         keywords = self.keyword_entry.toPlainText().split()
+        server = self.server_ip_entry.text()
+        port = self.server_port_entry.text()
 
         # Print the retrieved values
-        print("Directories:", directories)
-        print("Date From:", date_from)
+        print("is usb", is_docPuller_type_usb)
+        print('server ip', server)
+        print('server port', port)
+        print("Directories:", type(directories))
+        print("Date From:", type(date_from))
         print("Date To:", date_to)
-        print("File Type:", file_type)
+        print("File Type:", type(file_type))
         print("Keywords:", keywords)
+
 
 
 class DocPullerGUI:

