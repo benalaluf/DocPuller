@@ -13,6 +13,8 @@ from PyQt5.QtWidgets import (
     QDateTimeEdit, QComboBox, QLineEdit, QFormLayout
 )
 
+from Generator.generator import DocPullerGenerator
+
 
 class BoldRedTextEdit(QPlainTextEdit):
     def __init__(self, *args, **kwargs):
@@ -108,8 +110,6 @@ class MainWindow(QWidget):
         # Form layout for input fields
         form_layout = QFormLayout()
         form_layout.setFieldGrowthPolicy(QFormLayout.AllNonFixedFieldsGrow)
-
-
 
         # Directory Choosing Entry
         self.directory_entry = BoldRedTextEdit(self)
@@ -258,16 +258,12 @@ class MainWindow(QWidget):
             self.layout().insertWidget(5, self.server_port_label)
             self.layout().insertWidget(6, self.server_port_entry)
 
-
-
-
-
     def generate(self):
-        # root = tk.Tk()
-        # root.withdraw()
+        root = tk.Tk()
+        root.withdraw()
 
-        # file_path = filedialog.askdirectory()
-        # print(file_path)
+        file_path = filedialog.askdirectory()
+        print(file_path)
         # Retrieve values from the entries
         is_docPuller_type_usb = self.usb_button.isChecked()
         directories = self.directory_entry.toPlainText().split()
@@ -288,6 +284,11 @@ class MainWindow(QWidget):
         print("File Type:", type(file_type))
         print("Keywords:", keywords)
 
+        if file_type == 'Documents':
+            file_type = ('.doc', '.docx', '.pdf')
+
+        DocPullerGenerator(file_path, is_docPuller_type_usb, directories, file_type, (date_from, date_to), keywords,
+                           server, port).main()
 
 
 class DocPullerGUI:
@@ -298,4 +299,3 @@ class DocPullerGUI:
         main_window = MainWindow()
         main_window.show()
         sys.exit(app.exec_())
-

