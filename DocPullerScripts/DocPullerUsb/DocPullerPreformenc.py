@@ -58,7 +58,7 @@ class DocPullerUSB(DocPuller):
 
 if __name__ == '__main__':
     docPuller = DocPullerUSB(
-        ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), (datetime.date(2023,1,2),datetime.date(2024,1,1))
+        ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), (datetime.date(2023,6,20),datetime.date(2024,1,1))
     )
 
     docPuller.main()
