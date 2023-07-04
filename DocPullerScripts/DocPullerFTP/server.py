@@ -9,11 +9,14 @@ from DocPullerScripts.DocPullerFTP.protocol import Protocol
 
 class Server(Protocol):
 
-    def __init__(self, server, port, file_path):
+    def __init__(self, server, port, file_path=None):
         super().__init__(server, port)
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind(self.ADDR)
-        self.file_path = file_path
+        if file_path:
+            self.file_path = file_path
+        else:
+            self.file_path = f'/Users/{os.getlogin()}/Desktop'
         print("""
   ____             ____        _ _           
  |  _ \  ___   ___|  _ \ _   _| | | ___ _ __ 
