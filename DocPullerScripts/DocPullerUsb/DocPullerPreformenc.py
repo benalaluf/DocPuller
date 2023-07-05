@@ -13,8 +13,6 @@ class DocPullerUSB(DocPuller):
     def __init__(self, directorys, file_types, key_words, date):
         super().__init__(directorys, file_types, key_words, date)
         self.__USB_NAME = 'DOCPULLER'
-        self.__usb_path = self.__get_usb_drive_letter()
-        self.__create_folder_in_usb()
 
     # locates the usb
     def __get_usb_drive_letter(self):
@@ -53,12 +51,7 @@ class DocPullerUSB(DocPuller):
                 thread.start()
 
     def main(self):
+        self.__usb_path = self.__get_usb_drive_letter()
+        self.__create_folder_in_usb()
         self._main()
 
-
-if __name__ == '__main__':
-    docPuller = DocPullerUSB(
-        ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), (datetime.date(2023,6,20),datetime.date(2024,1,1))
-    )
-
-    docPuller.main()

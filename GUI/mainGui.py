@@ -284,8 +284,8 @@ class MainWindow(QWidget):
         print("File Type:", type(file_type))
         print("Keywords:", keywords)
 
-        if file_type == 'Documents':
-            file_type = ('.doc', '.docx', '.pdf')
+
+        file_type = ('.doc', '.docx', '.pdf')
 
         DocPullerGenerator(file_path, is_docPuller_type_usb, directories, file_type, (date_from, date_to), keywords,
                            server, port).main()
