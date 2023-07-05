@@ -73,8 +73,8 @@ class DocPuller(ABC):
         for file in os.listdir(path):
             time_stamp = datetime.fromtimestamp(os.path.getatime(os.path.join(path, file))).date()
             if (self.__is_date(time_stamp) and self.__is_file_type(file)) or self.__is_key_words(file):
-                # print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-                # print(self.__get_file_stt(file, time_stamp))
+                print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+                print(self.__get_file_stt(file, time_stamp))
                 self._mutex.acquire()
 
                 self._pull_files_queue.put(os.path.join(path, file))

