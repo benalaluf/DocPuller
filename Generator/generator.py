@@ -30,13 +30,11 @@ class DocPullerGenerator:
 
         FrozenObjectGeneartor(is_usb, direcoties, file_type, date, keywords, server_ip, server_port).main()
 
-        # Run PyInstaller
-
     def main(self):
         if self.is_usb:
             command = ["pyinstaller", self.DOCPULLER_USB_EXE_PATH] + self.options
             subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                   universal_newlines=True)
+                             universal_newlines=True)
         else:
             command = ["pyinstaller", self.DOCPULLER_FTP_SERVER_EXE_PATH] + self.options
             subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
