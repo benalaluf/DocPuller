@@ -1,4 +1,3 @@
-import pickle
 import sys
 import qdarktheme
 import tkinter as tk

