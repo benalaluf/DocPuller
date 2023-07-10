@@ -48,7 +48,7 @@ window.geometry('700x550')
 window.resizable(False, False)
 
 # Resize the background image
-background_image = Image.open("background.jpeg")
+background_image = Image.open("images/background.jpeg")
 resized_image = background_image.resize((800, 600))  # Specify the desired width and height
 background_photo = ImageTk.PhotoImage(resized_image)
 

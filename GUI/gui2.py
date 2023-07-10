@@ -14,7 +14,7 @@ class MainWindow(QtWidgets.QWidget):
         self.setFixedSize(700, 550)
 
         # Resize the background image
-        background_image = Image.open("background.jpeg")
+        background_image = Image.open("images/background.jpeg")
         resized_image = background_image.resize((800, 600))
         self.background_photo = QtGui.QPixmap.fromImage(
             QtGui.QImage(
