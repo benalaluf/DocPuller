@@ -1,0 +1,5 @@
+tkcalendar~=1.6.1
+Pillow~=9.5.0
+PyQt5~=5.15.9
+dill~=0.3.6
+PySimpleGUI~=4.60.5
