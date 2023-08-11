@@ -49,7 +49,7 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.setWindowTitle('DocPuller')
-        self.setWindowIcon(QIcon('backgrond.jpeg'))
+        self.setWindowIcon(QIcon('images/backgrond.jpeg'))
         self.setGeometry(100, 100, 700, 850)
 
         layout = QVBoxLayout()
@@ -229,7 +229,7 @@ class MainWindow(QWidget):
         self.update_background()
 
     def update_background(self):
-        background_image_path = 'GUI/macos.jpeg'
+        background_image_path = 'GUI/images/macos.jpeg'
         background = QPixmap(background_image_path).scaled(
             self.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation
         )

