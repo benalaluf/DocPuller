@@ -26,5 +26,5 @@ if __name__ == '__main__':
 
 
     def write_to_file(self):
-        with open('docpullerscrip.py', 'w') as f:
+        with open('Generator/docpullerscrip.py', 'w') as f:
             f.write(self.DocPuller_USB_SCRIPT)

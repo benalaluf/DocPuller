@@ -14,7 +14,7 @@ class DocPullerGenerator:
         self.keywords = keywords
         self.server_ip = server_ip
         self.server_port = server_port
-        self.DOCPULLER_SCRIPT = 'docpullerscrip.py'
+        self.DOCPULLER_SCRIPT = 'Generator/docpullerscrip.py'
 
         # Specify additional PyInstaller options if needed
         self.options = [
