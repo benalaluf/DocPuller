@@ -67,3 +67,7 @@ class Server(Protocol):
     def main(self):
         print('SERVER IS STARTING :)')
         self.start()
+
+
+if __name__ == '__main__':
+    Server('192.168.1.102', 8830, '/Users/blu/Desktop/').main()

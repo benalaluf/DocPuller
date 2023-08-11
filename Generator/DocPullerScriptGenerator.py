@@ -58,7 +58,6 @@ if __name__ == '__main__':
 
                     """
 
-
     def write_to_file(self):
         if self.is_usb:
             with open('Generator/docpullerscrip.py', 'w') as f:

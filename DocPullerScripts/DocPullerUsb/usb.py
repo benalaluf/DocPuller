@@ -4,10 +4,12 @@ import subprocess
 import threading
 import os
 import shutil
-from DocPullerScripts.DirectoriesScaner.DocPullerGenric import DocPuller
+import time
 
+from DirectoriesScaner.DocPullerGenric import DocPuller
 
 class DocPullerUSB(DocPuller):
+
 
     def __init__(self, directorys, file_types, key_words, date):
         super().__init__(directorys, file_types, key_words, date)
@@ -50,7 +52,10 @@ class DocPullerUSB(DocPuller):
                 thread.start()
 
     def main(self):
+        starttime = time.perf_counter()
         self.__usb_path = self.__get_usb_drive_letter()
         self.__create_folder_in_usb()
         self._main()
+
+        print(f'finish in: {time.perf_counter()-starttime}')
 
