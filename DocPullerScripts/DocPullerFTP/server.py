@@ -64,7 +64,6 @@ class Server(Protocol):
             print(e)
             self.server.close()
 
-
-if __name__ == '__main__':
-    print('SERVER IS STARTING :)')
-    Server('192.168.1.102', 8830, '/Users/benalaluf/Desktop').start()
+    def main(self):
+        print('SERVER IS STARTING :)')
+        self.start()
