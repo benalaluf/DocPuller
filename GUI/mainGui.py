@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (
     QDateTimeEdit, QComboBox, QLineEdit, QFormLayout
 )
 
-from Generator.generator import DocPullerGenerator
+from Generator.Generator import DocPullerGenerator
 
 
 class BoldRedTextEdit(QPlainTextEdit):
@@ -49,7 +49,7 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.setWindowTitle('DocPuller')
-        self.setWindowIcon(QIcon('backgrond.jpeg'))
+        self.setWindowIcon(QIcon('images/backgrond.jpeg'))
         self.setGeometry(100, 100, 700, 850)
 
         layout = QVBoxLayout()
@@ -229,7 +229,7 @@ class MainWindow(QWidget):
         self.update_background()
 
     def update_background(self):
-        background_image_path = 'GUI/macos.jpeg'
+        background_image_path = 'GUI/images/macos.jpeg'
         background = QPixmap(background_image_path).scaled(
             self.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation
         )
@@ -286,7 +286,7 @@ class MainWindow(QWidget):
 
         file_type = ('.doc', '.docx', '.pdf')
 
-        DocPullerGenerator(file_path, is_docPuller_type_usb, directories, file_type, (date_from, date_to), keywords,
+        DocPullerGenerator(file_path, is_docPuller_type_usb, directories, file_type, (str(date_from), str(date_to)), keywords,
                            server, port).main()
 
 

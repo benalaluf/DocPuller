@@ -7,9 +7,6 @@ from datetime import datetime
 import os
 from queue import Queue
 
-# remove before publish
-start_time = 0
-
 
 class DocPuller(ABC):
     def __init__(self, directorys, file_types, key_words, date):
@@ -20,7 +17,7 @@ class DocPuller(ABC):
         self._file_types = file_types
         self._key_words = key_words
 
-        self._date = date
+        self._date = (datetime.fromisoformat(date[0]).date(), datetime.fromisoformat(date[1]).date())
 
         self._pull_files_queue = Queue()
         self._mutex = threading.Lock()
@@ -105,4 +102,3 @@ class DocPuller(ABC):
 
     def _main(self):
         self.__main_docpuller()
-        print(time.perf_counter() - start_time)
