@@ -1,16 +1,8 @@
-import pickle
-
 import dill
-
-
-class DocPullerUSBExe:
-
-    def __init__(self):
-        with open(r'/Generator/DocPullerObjecets/frozen_DocPullerUSB.pkl', 'rb') as file:
-            loaded_obj = dill.load(file)
-
-        loaded_obj.main()
+from DocPullerScripts.DocPullerUsb.usb import DocPullerUSB
 
 if __name__ == '__main__':
-    DocPullerUSBExe()
+    with open(r'DocPullerFrozenObjects/FrozenDocPullerUSB.pkl', 'rb') as file:
+        loaded_obj = dill.load(file)
 
+    loaded_obj.main()

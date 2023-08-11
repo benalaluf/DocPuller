@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (
     QDateTimeEdit, QComboBox, QLineEdit, QFormLayout
 )
 
-from Generator.generator import DocPullerGenerator
+from Generator.Generator import DocPullerGenerator
 
 
 class BoldRedTextEdit(QPlainTextEdit):

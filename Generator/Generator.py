@@ -1,10 +1,6 @@
 import subprocess
-from tkinter import Tk
-from tkinter.filedialog import askdirectory
-import sys
 
-
-from Generator.Modoles.fronzen_objects_geneartor import FrozenObjectGeneartor
+from Generator.FronzenObjectsGeneartor import FrozenObjectGeneartor
 
 
 class DocPullerGenerator:
