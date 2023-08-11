@@ -22,7 +22,7 @@ class FrozenObjectGeneartor:
         print('createing DocpullerUsb frozen object')
         obj = DocPullerUSB(self.direcoties, self.file_type, self.keywords, self.date)
 
-        with open(r'DocPullerScriptsToExe/DocPullerFrozenObjects/FrozenDocPullerUSB.pkl', 'wb') as file:
+        with open(r'Generator/DocPullerScriptsToExe/DocPullerFrozenObjects/FrozenDocPullerUSB.pkl', 'wb') as file:
             dill.dump(obj, file)
             print('finish createing frozenobj file')
 

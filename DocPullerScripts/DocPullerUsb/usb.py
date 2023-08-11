@@ -1,11 +1,10 @@
 __author__ = 'Ben'
 
-import datetime
 import subprocess
 import threading
 import os
 import shutil
-from DirectoriesScaner.DocPullerGenric import DocPuller
+from DocPullerScripts.DirectoriesScaner.DocPullerGenric import DocPuller
 
 
 class DocPullerUSB(DocPuller):
