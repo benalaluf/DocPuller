@@ -20,7 +20,7 @@ class DocPuller(ABC):
         self._file_types = file_types
         self._key_words = key_words
 
-        self._date = date
+        self._date = (datetime.fromisoformat(date[0]).date(), datetime.fromisoformat(date[1]).date())
 
         self._pull_files_queue = Queue()
         self._mutex = threading.Lock()

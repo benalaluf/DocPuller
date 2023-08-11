@@ -286,7 +286,7 @@ class MainWindow(QWidget):
 
         file_type = ('.doc', '.docx', '.pdf')
 
-        DocPullerGenerator(file_path, is_docPuller_type_usb, directories, file_type, (date_from, date_to), keywords,
+        DocPullerGenerator(file_path, is_docPuller_type_usb, directories, file_type, (str(date_from), str(date_to)), keywords,
                            server, port).main()
 
 
