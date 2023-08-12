@@ -8,12 +8,14 @@ env/
 
 # Ignore generated files
 generated_files/
+build/
 
 # Ignore IDE-specific files
 .vscode/
 .idea/
 
 *.xml
+*.spec
 
 # Ignore editor backup files
 *~
@@ -22,5 +24,3 @@ generated_files/
 .DS_Store
 Thumbs.db
 
-*.spec
-build
