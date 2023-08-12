@@ -33,10 +33,13 @@ from docpuller_scripts.docpuller_ftp.server_ftp import Server
 
 
 def main():
+    try:
+        docPuller = Server({self.server_parms})
+        docPuller.main()
+    except Exception as e:
+        print(e)
 
-    docPuller = Server({self.server_parms})
-
-    docPuller.main()
+    
 
 
 if __name__ == '__main__':

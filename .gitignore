@@ -13,6 +13,8 @@ generated_files/
 .vscode/
 .idea/
 
+*.xml
+
 # Ignore editor backup files
 *~
 
@@ -20,4 +22,5 @@ generated_files/
 .DS_Store
 Thumbs.db
 
+*.spec
 build
