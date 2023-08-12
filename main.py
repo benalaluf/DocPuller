@@ -1,4 +1,4 @@
-from gui.main_gui import DocPullerGUI
+import GUI.main_gui
 
 if __name__ == '__main__':
-    DocPullerGUI().main()
+    GUI.main_gui.DocPullerGUI().main()

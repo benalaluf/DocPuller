@@ -6,13 +6,13 @@ import os
 import shutil
 import time
 
-from constants.constatns import USB_NAME
+import constants.config
 from docpuller_scripts.docpuller_abs import DocPuller
 class DocPullerUSB(DocPuller):
 
     def __init__(self, directories, file_types, key_words, date):
         super().__init__(directories, file_types, key_words, date)
-        self.__USB_NAME = USB_NAME
+        self.__USB_NAME = constants.config.USB_NAME
 
     # locates the usb
     def __get_usb_drive_letter(self):
@@ -24,7 +24,7 @@ class DocPullerUSB(DocPuller):
                 return line[0:2] + '\\'
         else:
             print('cant find usb')
-            exit(1)
+            exit(0)
 
     # creates folder in usb for the files to be copy to
     def __create_folder_in_usb(self):

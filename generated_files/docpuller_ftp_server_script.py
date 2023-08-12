@@ -2,9 +2,10 @@
 
 from docpuller_scripts.docpuller_ftp.server_ftp import Server
 
+
 def main():
 
-    docPuller = Server("192.168.1.102", 8830, "c:\\")
+    docPuller = Server("192.168.1.1", 1101, "c:\\")
 
     docPuller.main()
 

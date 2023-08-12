@@ -20,6 +20,7 @@ class DocPullerGenerator:
         self.command = [
             "pyinstaller",
             "--onefile",
+            "--clean",
             "--noconsole",
             f"--distpath={self.save_dir}"
         ]

