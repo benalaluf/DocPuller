@@ -70,5 +70,5 @@ class Server(Protocol):
         self.start()
 
 
-if __name__ == '__main__':
-    Server('192.168.1.102', 8830, '/Users/blu/Desktop/').main()
+# if __name__ == '__main__':
+#     Server('192.168.1.102', 8830, '/Users/men/Desktop/').main()
