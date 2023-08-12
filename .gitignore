@@ -1,0 +1,23 @@
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore virtual environment directories
+venv/
+env/
+
+# Ignore generated files
+generated_files/
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore editor backup files
+*~
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+build
