@@ -1,7 +1,4 @@
-import datetime
-import os.path
-import time
+import GUI.main_gui
 
-from GUI.mainGui import DocPullerGUI
-
-DocPullerGUI().main()
+if __name__ == '__main__':
+    GUI.main_gui.DocPullerGUI().main()
