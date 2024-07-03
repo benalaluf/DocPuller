@@ -4,3 +4,4 @@ PyQt5~=5.15.9
 dill~=0.3.6
 PySimpleGUI~=4.60.5
 pyqtdarktheme~=2.1.0
+pyinstaller~=1.0.0
