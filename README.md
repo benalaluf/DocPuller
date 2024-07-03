@@ -27,4 +27,5 @@ Documents can be obtained by using one of the two following methods:
 3. Install the requirements via the requiements.txt file with the following command:
    - `pip install -r requiermetns.txt`
 4. run main.py
-   - `python main.py`
+  - `python main.py`
+.
